@@ -1,0 +1,620 @@
+<title>Н или НН</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap">
+<style>
+  :root{
+    --paper:#eef1f4;
+    --card:#ffffff;
+    --card-2:#f6f8fa;
+    --ink:#1b2630;
+    --muted:#5c6b78;
+    --line:#d9e0e6;
+    --accent:#37597c;
+    --accent-soft:#e7edf3;
+    --right:#1c7a49;
+    --right-bg:#e6f2ea;
+    --right-line:#bfe0cd;
+    --wrong:#b83a2b;
+    --wrong-bg:#f9e9e6;
+    --wrong-line:#eec7bf;
+    --shadow:0 1px 2px rgba(27,38,48,.06),0 8px 24px rgba(27,38,48,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#10151a;
+      --card:#181f26;
+      --card-2:#141a20;
+      --ink:#e3e9ee;
+      --muted:#93a2ae;
+      --line:#28323b;
+      --accent:#8db4d8;
+      --accent-soft:#1e2a35;
+      --right:#5cc78d;
+      --right-bg:#152a20;
+      --right-line:#27503a;
+      --wrong:#e78a7d;
+      --wrong-bg:#2c1a17;
+      --wrong-line:#54302a;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#10151a;
+    --card:#181f26;
+    --card-2:#141a20;
+    --ink:#e3e9ee;
+    --muted:#93a2ae;
+    --line:#28323b;
+    --accent:#8db4d8;
+    --accent-soft:#1e2a35;
+    --right:#5cc78d;
+    --right-bg:#152a20;
+    --right-line:#27503a;
+    --wrong:#e78a7d;
+    --wrong-bg:#2c1a17;
+    --wrong-line:#54302a;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"PT Sans","Segoe UI",system-ui,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 120px}
+
+  header{margin-bottom:14px}
+  .eyebrow{
+    font-family:"PT Mono",ui-monospace,monospace;
+    font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 12px;
+  }
+  h1{
+    font-family:"PT Serif",Georgia,serif;font-weight:700;font-size:2.15rem;
+    line-height:1.12;margin:0 0 10px;text-wrap:balance;letter-spacing:-.01em;
+  }
+  .lede{color:var(--muted);font-size:1.04rem;margin:0;max-width:60ch}
+  .lede b{color:var(--ink);font-weight:700}
+
+  .map{
+    margin:26px 0 8px;padding:18px 18px 8px;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+  }
+  .map h2{
+    font-family:"PT Sans",sans-serif;font-weight:700;font-size:.78rem;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;
+  }
+  .map ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  .map li{
+    display:grid;grid-template-columns:26px 1fr auto;align-items:baseline;
+    gap:10px;padding:8px 6px;border-bottom:1px solid var(--line);
+  }
+  .map li:last-child{border-bottom:0}
+  .map .n{font-family:"PT Serif",serif;font-weight:700;color:var(--accent);font-size:1.05rem}
+  .map .t{color:var(--ink);font-size:.96rem}
+  .map .c{font-family:"PT Mono",monospace;font-size:.76rem;color:var(--muted);white-space:nowrap}
+  .map .c.hot{color:var(--wrong)}
+
+  .block{margin-top:38px;scroll-margin-top:16px}
+  .block-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .block-head .bn{font-family:"PT Serif",serif;font-weight:700;font-size:1.7rem;color:var(--accent);line-height:1;flex:none}
+  .block-head h2{font-family:"PT Serif",serif;font-weight:700;font-size:1.4rem;margin:0;line-height:1.2;text-wrap:balance}
+  .block-sub{color:var(--muted);font-size:.92rem;margin:2px 0 0 40px}
+
+  details.cheat{
+    margin:14px 0 6px 0;border:1px solid var(--line);border-radius:10px;
+    background:var(--card-2);overflow:hidden;
+  }
+  details.cheat > summary{
+    cursor:pointer;padding:11px 15px;font-weight:700;font-size:.9rem;color:var(--accent);
+    list-style:none;display:flex;align-items:center;gap:8px;user-select:none;
+  }
+  details.cheat > summary::-webkit-details-marker{display:none}
+  details.cheat > summary::before{content:"›";font-size:1.1rem;transition:transform .15s}
+  details.cheat[open] > summary::before{transform:rotate(90deg)}
+  .cheat-body{padding:4px 16px 16px;border-top:1px solid var(--line);font-size:.95rem;color:var(--ink)}
+  .cheat-body p{margin:12px 0}
+  .cheat-body b{color:var(--ink)}
+  .cheat-body .m{
+    display:block;margin:12px 0;padding-left:13px;border-left:3px solid var(--accent);
+    color:var(--muted);font-style:italic;
+  }
+  .cheat-body code{
+    font-family:"PT Mono",monospace;font-size:.86em;
+    background:var(--accent-soft);padding:1px 5px;border-radius:4px;color:var(--ink);
+  }
+
+  .items{margin-top:10px}
+  .item{padding:16px 0;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:0}
+  .q{font-size:1.06rem;margin:0 0 11px}
+  .slot{
+    font-family:"PT Mono",monospace;font-size:.9em;font-weight:700;
+    background:var(--accent-soft);color:var(--muted);
+    padding:0 5px;border-radius:5px;letter-spacing:.05em;
+  }
+  .slot.ok{color:var(--right);background:var(--right-bg)}
+  .slot.no{color:var(--wrong);background:var(--wrong-bg)}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opts button{
+    font-family:"PT Sans",sans-serif;font-size:.9rem;font-weight:700;color:var(--ink);
+    background:var(--card);border:1.5px solid var(--line);border-radius:999px;
+    padding:6px 17px;cursor:pointer;transition:border-color .12s,background .12s;
+  }
+  .opts button:hover:not(:disabled){border-color:var(--accent)}
+  .opts button:disabled{cursor:default}
+  .opts button.pick-right{background:var(--right-bg);border-color:var(--right);color:var(--right)}
+  .opts button.pick-wrong{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong)}
+  .opts button.reveal{border-color:var(--right);color:var(--right)}
+  .opts .skip{border-style:dashed;color:var(--muted);font-weight:400}
+  .why{
+    margin-top:11px;padding:10px 13px;border-radius:8px;font-size:.92rem;
+    background:var(--card-2);border:1px solid var(--line);display:none;
+  }
+  .why.show{display:block}
+  .why .verdict{font-weight:700}
+  .why .verdict.ok{color:var(--right)}
+  .why .verdict.no{color:var(--wrong)}
+  .why .ans{font-family:"PT Mono",monospace;font-weight:700;color:var(--ink)}
+  .why b{color:var(--ink)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+  /* ege */
+  .ege .item{padding:22px 0}
+  .ege .task{font-family:"PT Mono",monospace;font-size:.72rem;color:var(--accent);margin:0 0 8px;text-transform:uppercase;letter-spacing:.12em}
+  .ege .ege-q{font-size:.98rem;color:var(--ink);margin:0 0 14px}
+  .ege .ege-q b{color:var(--accent);font-family:"PT Mono",monospace}
+  .ege-sent{font-size:1.05rem;line-height:2.05;margin:0 0 14px}
+  .snum{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:23px;height:23px;margin:0 1px;vertical-align:middle;
+    font-family:"PT Mono",monospace;font-size:.78rem;font-weight:700;
+    border:1.5px solid var(--line);border-radius:6px;background:var(--card);
+    color:var(--muted);cursor:pointer;transition:border-color .12s,background .12s,color .12s;
+  }
+  .snum:hover:not(:disabled){border-color:var(--accent);color:var(--ink)}
+  .snum.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .snum.num-right{background:var(--right-bg);border-color:var(--right);color:var(--right)}
+  .snum.num-wrong{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong)}
+  .ege .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .ege .hintline{color:var(--muted);font-size:.85rem}
+  .ege .check{
+    font-family:"PT Sans",sans-serif;font-weight:700;font-size:.9rem;
+    padding:8px 20px;border-radius:8px;border:1.5px solid var(--accent);
+    background:var(--accent);color:#fff;cursor:pointer;
+  }
+  .ege .check:disabled{opacity:.5;cursor:default}
+  .ege .breakdown{margin:10px 0 0;padding-left:20px;display:grid;gap:5px}
+  .ege .breakdown li{font-size:.9rem;color:var(--muted)}
+  .ege .breakdown li.bd-hit{color:var(--ink)}
+  .ege .breakdown li b{color:var(--ink)}
+  .ege .why .ans{display:block;margin-top:4px}
+
+  .hud{
+    position:fixed;right:16px;bottom:16px;z-index:20;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    box-shadow:var(--shadow);padding:8px 16px;font-size:.85rem;
+    display:flex;gap:12px;align-items:center;
+  }
+  .hud b{font-family:"PT Mono",monospace;color:var(--accent)}
+  .hud .rst{background:none;border:0;color:var(--muted);cursor:pointer;font-size:.8rem;text-decoration:underline;padding:0}
+  @media (max-width:520px){
+    h1{font-size:1.8rem}
+    .map li{grid-template-columns:22px 1fr;gap:8px}
+    .map .c{grid-column:2;margin-top:2px}
+    .hud{right:10px;bottom:10px;padding:7px 12px;font-size:.8rem}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Саша · 11 класс · ЕГЭ, задание 15</p>
+    <h1>Н или НН</h1>
+    <p class="lede">Отработка по следам диагностики: <b>5 блоков</b> правил и <b>8 заданий</b> в формате ЕГЭ (отметить все цифры, где пишется НН — или, где указано, Н). Правила — стандартные, из краткой теории.</p>
+  </header>
+
+  <nav class="map">
+    <h2>Что западает в диагностике</h2>
+    <ol>
+      <li><span class="n">1</span><span class="t">Отымённые прилагательные: <i>‑ан/‑ян/‑ин → Н</i>, <i>‑енн/‑онн, Н+Н → НН</i>; исключения</span><span class="c">основа</span></li>
+      <li><span class="n">2</span><span class="t">Причастие или отглагольное прилагательное: приставка · зависимое слово · ‑ова‑ · сов. вид</span><span class="c hot">писа́ные по‑латыни, гры́зенный молью</span></li>
+      <li><span class="n">3</span><span class="t">Краткие формы: <i>краткое причастие → всегда Н</i></span><span class="c hot">вымышле<b>н</b>ы, настрое<b>н</b>ы, подчине<b>н</b>о</span></li>
+      <li><span class="n">4</span><span class="t">Наречия на ‑о/‑е: столько Н, сколько в производящем слове</span><span class="c hot">растроганно</span></li>
+      <li><span class="n">5</span><span class="t">Существительные: труже<b>н</b>ик, гости<b>н</b>ица — но посла<b>нн</b>ик, свяще<b>нн</b>ик</span><span class="c hot">посланник, труженик</span></li>
+    </ol>
+  </nav>
+
+  <main id="app"></main>
+
+  <section class="block ege" id="ege">
+    <div class="block-head"><span class="bn">✓</span><h2>Как на ЕГЭ</h2></div>
+    <p class="block-sub" style="margin-left:44px">Определи, что на месте каждой цифры, и отметь нужные номера. Внимание на формулировку: спрашивают то НН, то Н.</p>
+    <div class="items" id="ege-items"></div>
+  </section>
+</div>
+
+<div class="hud">
+  <span>Пройдено <b id="hud-done">0</b>/<b id="hud-total">0</b></span>
+  <span>Верно <b id="hud-ok">0</b></span>
+  <button class="rst" id="reset">сбросить</button>
+</div>
+
+<script>
+// В тренировочных пунктах пропуск Н/НН помечен {}. a: "Н" | "НН".
+const DRILLS = [
+  {
+    block:1,
+    title:"Прилагательные от существительных",
+    sub:"‑ан‑ / ‑ян‑ / ‑ин‑ → Н   ·   ‑енн‑ / ‑онн‑ и «Н + Н» → НН",
+    cheat:[
+      "<b>Одна Н — суффиксы ‑АН‑, ‑ЯН‑, ‑ИН‑</b>: кож<b>ан</b>ый, песч<b>ан</b>ый, серебр<b>ян</b>ый, глин<b>ян</b>ый, гус<b>ин</b>ый, лебед<b>ин</b>ый. Подсказка: «сделан из чего» / «чей».",
+      "<b>Две Н — суффиксы ‑ЕНН‑, ‑ОНН‑</b>: солом<b>енн</b>ый, клюкв<b>енн</b>ый, революци<b>онн</b>ый, лекци<b>онн</b>ый. <b>И «Н основы + Н суффикса»</b>: дли<b>н·н</b>ый (длина), стари<b>н·н</b>ый (старина), исти<b>н·н</b>ый (истина), око<b>н·н</b>ый (окно), време<b>н·н</b>ый (время).",
+      "<b>Исключения с НН</b>: стекл<b>янн</b>ый, ол<b>овянн</b>ый, дерев<b>янн</b>ый.",
+      "<b>Исключение с Н — ветреный</b> (день, человек). Но с приставкой: <b>безветренный</b>, <b>подветренный</b> — НН.",
+      "<span class='m'>Всегда одна Н (суффикса нет, это корень): юный, свиной, зелёный, синий, румяный, пряный, багряный, рьяный, единый; бараний, тюлений, фазаний, павлиний.</span>"
+    ],
+    items:[
+      {t:["кожа","ый диван"],a:"Н",w:"Суффикс <b>‑ан‑</b> → Н."},
+      {t:["серебря","ая ложка"],a:"Н",w:"Суффикс <b>‑ян‑</b> → Н."},
+      {t:["соломе","ая крыша"],a:"НН",w:"Суффикс <b>‑енн‑</b> → НН."},
+      {t:["стекля","ая ваза"],a:"НН",w:"Исключение: стеклянный, оловянный, деревянный."},
+      {t:["ветре","ый день"],a:"Н",w:"Исключение <b>ветреный</b> — одна Н."},
+      {t:["безветре","ая погода"],a:"НН",w:"Есть приставка без‑ + «ветрен‑» → НН (ср. подветренный)."},
+      {t:["революцио","ый настрой"],a:"НН",w:"Суффикс <b>‑онн‑</b> → НН."},
+      {t:["стари","ый замок"],a:"НН",w:"«Старина» + суффикс ‑н‑: Н основы + Н суффикса → НН."},
+      {t:["ю","ый спортсмен"],a:"Н",w:"Суффикса нет, «юн‑» — корень. Одна Н."},
+      {t:["гуси","ое перо"],a:"Н",w:"Суффикс <b>‑ин‑</b> → Н."},
+      {t:["дли","ый коридор"],a:"НН",w:"«Длина» + ‑н‑ → НН."},
+      {t:["багря","ый закат"],a:"Н",w:"Суффикса нет, «багрян‑» — корень. Одна Н."}
+    ]
+  },
+  {
+    block:2,
+    title:"Причастие или отглагольное прилагательное",
+    sub:"приставка (не «не‑») · зависимое слово · ‑ова‑/‑ева‑ · совершенный вид → НН",
+    cheat:[
+      "<b>Отглагольное прилагательное — Н</b>, если <b>нет ни одного</b> из четырёх признаков: нет приставки (или только не‑), несов. вид, нет зависимого слова, нет ‑ова‑/‑ева‑. Примеры: <b>краше</b>ный, <b>варё</b>ный, <b>сушё</b>ный, <b>вяза</b>ный, <b>жаре</b>ный.",
+      "<b>Причастие — НН</b>, если есть <b>хотя бы один</b> признак: <b>①</b> приставка кроме не‑ (<b>по</b>крашенный) · <b>②</b> зависимое слово (крашенный <b>вчера</b>) · <b>③</b> суффикс ‑ова‑/‑ева‑ (мари<b>нова</b>нный, асфальти<b>рова</b>нный) · <b>④</b> совершенный вид (реш<b>ённ</b>ый ← решить).",
+      "<b>Приставка НЕ‑ на выбор не влияет</b>: <b>не</b>кошеный луг — Н; <b>не</b>кошенный <b>с весны</b> луг — НН.",
+      "<b>Исключения с Н</b>: кова<b>н</b>ый, жёва<b>н</b>ый, клёва<b>н</b>ый (здесь ‑ов‑/‑ёв‑ — часть корня); ра<b>н</b>еный. Но появилось зависимое слово — уже НН: кова<b>нн</b>ый <b>мастером</b>, ра<b>н</b>енный <b>в руку</b>.",
+      "<span class='m'>Запомнить НН: невиданный, неслыханный, неожиданный, нежданный, негаданный, нечаянный, желанный, священный, деланный, чеканный, медленный, отчаянный.</span>",
+      "<span class='m'>Запомнить Н: конченый (человек), названый (брат), посажёный (отец), смышлёный, приданое.</span>"
+    ],
+    items:[
+      {t:["краше","ый пол"],a:"Н",w:"«Красить» (нес. вид), нет приставки, зависимого слова, ‑ова‑ → Н."},
+      {t:["покраше","ый пол"],a:"НН",w:"Признак ① — приставка <b>по‑</b> → НН."},
+      {t:["краше","ый месяц назад пол"],a:"НН",w:"Признак ② — зависимое слово «месяц назад» → НН."},
+      {t:["решё","ая задача"],a:"НН",w:"Признак ④ — совершенный вид (решить) → НН."},
+      {t:["варё","ый картофель"],a:"Н",w:"«Варить» (нес. вид), признаков нет → Н."},
+      {t:["марино","ые огурцы"],a:"НН",w:"Признак ③ — суффикс <b>‑ова‑</b> → НН."},
+      {t:["кова","ый сундук"],a:"Н",w:"Исключение <b>кованый</b> (‑ов‑ — часть корня) → Н."},
+      {t:["кова","ый кузнецом сундук"],a:"НН",w:"Появилось зависимое слово «кузнецом» → НН."},
+      {t:["ране","ый боец"],a:"Н",w:"Исключение <b>раненый</b> → Н."},
+      {t:["ране","ый в ногу боец"],a:"НН",w:"Зависимое слово «в ногу» → НН."},
+      {t:["некоше","ый луг"],a:"Н",w:"Приставка не‑ не влияет; «косить» — нес. вид → Н."},
+      {t:["невида","ый успех"],a:"НН",w:"Слово из списка на запоминание → НН."},
+      {t:["вяза","ая кофта"],a:"Н",w:"«Вязать» (нес. вид), признаков нет → Н."}
+    ]
+  },
+  {
+    block:3,
+    title:"Краткие формы",
+    sub:"краткое причастие → всегда Н   ·   краткое прилагательное → как в полной форме",
+    cheat:[
+      "<b>Краткое причастие — всегда одна Н</b>: задача реше<b>н</b>а, дети воспита<b>н</b>ы бабушкой, окна закраше<b>н</b>ы, поля засея<b>н</b>ы.",
+      "<b>Краткое прилагательное — столько Н, сколько в полном</b>: девочка воспита<b>нн</b>а (← воспита<b>нн</b>ая, = культурна), дорога дли<b>нн</b>а (← дли<b>нн</b>ая).",
+      "<b>Как отличить.</b> Причастие: есть действие, можно заменить глаголом, есть «кем? чем?» — «семена рассея<b>н</b>ы (кем? ветром)» = их рассеяли. Прилагательное: это признак, есть синоним‑прилагательное — «девочка рассея<b>нн</b>а» = невнимательна.",
+      "<span class='m'>Средний род так же: «дело обдума<b>н</b>о (кем?) юристом» — причастие, Н; «он поступил обдума<b>нн</b>о» — наречие от прилагательного, НН.</span>"
+    ],
+    items:[
+      {t:["Задача реше","а правильно."],a:"Н",w:"Краткое причастие → всегда Н."},
+      {t:["Девочка вежлива и воспита","а."],a:"НН",w:"Краткое прилагательное (= культурна) ← воспитанная → НН."},
+      {t:["Малыши воспита","ы бабушкой."],a:"Н",w:"Краткое причастие («кем? бабушкой») → Н."},
+      {t:["Дорога оказалась слишком дли","а."],a:"НН",w:"Краткое прилагательное ← длинная → НН."},
+      {t:["Все счета уже оплаче","ы."],a:"Н",w:"Краткое причастие → Н."},
+      {t:["Девушка была рассея","а и всё забывала."],a:"НН",w:"Краткое прилагательное (= невнимательна) → НН."},
+      {t:["Зёрна рассея","ы по полю."],a:"Н",w:"Краткое причастие («их рассеяли») → Н."},
+      {t:["Её манеры изыска","ы."],a:"НН",w:"Краткое прилагательное ← изысканные → НН."},
+      {t:["Поля засея","ы пшеницей."],a:"Н",w:"Краткое причастие → Н."},
+      {t:["Все были взволнова","ы известием."],a:"Н",w:"Краткое причастие («известие взволновало») → Н."}
+    ]
+  },
+  {
+    block:4,
+    title:"Наречия на ‑о / ‑е",
+    sub:"столько Н, сколько в прилагательном или причастии, от которого образовано наречие",
+    cheat:[
+      "<b>Правило одно: смотрим на производящее слово.</b> взволнова<b>нн</b>ый → говорил взволнова<b>нн</b>о; беше<b>н</b>ый → мчался беше<b>н</b>о; ветре<b>н</b>ый → на улице ветре<b>н</b>о.",
+      "<b>От слов на ‑нн‑ → ‑нно</b>: сдержа<b>нн</b>о, обдума<b>нн</b>о, растрога<b>нн</b>о, ожесточё<b>нн</b>о, изыска<b>нн</b>о, увере<b>нн</b>о, отчая<b>нн</b>о, нечая<b>нн</b>о, искре<b>нн</b>е, письме<b>нн</b>о.",
+      "<b>От слов на ‑н‑ → ‑но</b>: беше<b>н</b>о, ветре<b>н</b>о, пута<b>н</b>о (отвечал), учё<b>н</b>о.",
+      "<span class='m'>Не путать с кратким причастием среднего рода! «Всё было обдума<b>н</b>о (кем?)» — краткое причастие, Н. «Он ответил обдума<b>нн</b>о» — наречие, НН.</span>"
+    ],
+    items:[
+      {t:["Он говорил взволнова","о."],a:"НН",w:"← взволнова<b>нн</b>ый → НН."},
+      {t:["Лошадь мчалась беше","о."],a:"Н",w:"← беше<b>н</b>ый → Н."},
+      {t:["Ученик отвечал пута","о."],a:"Н",w:"← пута<b>н</b>ый → Н."},
+      {t:["Гость держался сдержа","о."],a:"НН",w:"← сдержа<b>нн</b>ый → НН."},
+      {t:["Она искре","е обрадовалась встрече."],a:"НН",w:"← искре<b>нн</b>ий → НН."},
+      {t:["Дверь нечая","о хлопнула."],a:"НН",w:"← нечая<b>нн</b>ый → НН."},
+      {t:["На улице было по‑осеннему ветре","о."],a:"Н",w:"← ветре<b>н</b>ый (исключение) → Н."},
+      {t:["Он поступил обдума","о и спокойно."],a:"НН",w:"Наречие ← обдума<b>нн</b>ый → НН."},
+      {t:["Всё было заранее обдума","о до мелочей."],a:"Н",w:"Краткое причастие («обдумано» кем?) → Н."},
+      {t:["Ребёнок смотрел на всех испуга","о."],a:"НН",w:"← испуга<b>нн</b>ый → НН."}
+    ]
+  },
+  {
+    block:5,
+    title:"Существительные",
+    sub:"столько Н, сколько в слове, от которого образовано   ·   плюс списки на память",
+    cheat:[
+      "<b>Смотрим на производящее слово.</b> От основы на ‑нн‑ → НН: со<b>нн</b>ый → со<b>нн</b>ик, воспита<b>нн</b>ый → воспита<b>нн</b>ик, посла<b>нн</b>ый → посла<b>нн</b>ик, избра<b>нн</b>ый → избра<b>нн</b>ик. От основы на ‑н‑ → Н: пута<b>н</b>ый → пута<b>н</b>ик, конопля<b>н</b>ый → конопля<b>н</b>ик.",
+      "<b>Одна Н — запомнить</b>: труже<b>н</b>ик, муче<b>н</b>ик, уче<b>н</b>ик, гости<b>н</b>ица, вар<b>ен</b>ик, придан<b>о</b>е, бессребре<b>н</b>ик, сребре<b>н</b>ик (монета), багря<b>н</b>ица.",
+      "<b>Две Н — запомнить</b>: беспридан<b>нн</b>ица, свяще<b>нн</b>ик, ставле<b>нн</b>ик, дружи<b>нн</b>ик, совреме<b>нн</b>ик, соотечестве<b>нн</b>ик, племя<b>нн</b>ик.",
+      "<span class='m'>Держи пару: гости<b>н</b>ица и гости<b>н</b>ая — обе с одной Н; а бесприда<b>нн</b>ица — с двумя.</span>"
+    ],
+    items:[
+      {t:["К царю прибыл посла","ик."],a:"НН",w:"← посла<b>нн</b>ый (сов. вид) → НН."},
+      {t:["Он настоящий труже","ик."],a:"Н",w:"Запомнить: труженик — одна Н."},
+      {t:["Бывший воспита","ик детского дома."],a:"НН",w:"← воспита<b>нн</b>ый → НН."},
+      {t:["Мы остановились в гости","ице."],a:"Н",w:"Запомнить: гостиница — одна Н."},
+      {t:["Его почитали как муче","ика."],a:"Н",w:"Запомнить: мученик — одна Н."},
+      {t:["В село приехал молодой свяще","ик."],a:"НН",w:"Запомнить: священник — НН."},
+      {t:["За невестой дали богатое прида","ое."],a:"Н",w:"Запомнить: приданое — одна Н."},
+      {t:["Это самый прилежный уче","ик в классе."],a:"Н",w:"Запомнить: ученик — одна Н."},
+      {t:["Он был лишь послушный ставле","ик министра."],a:"НН",w:"← ставле<b>нн</b>ый → НН."},
+      {t:["Пушкин — наш совреме","ик по духу."],a:"НН",w:"← совреме<b>нн</b>ый → НН."},
+      {t:["Гости собрались в гости","ой."],a:"Н",w:"Запомнить: гостиная — одна Н (в отличие от бесприданницы)."},
+      {t:["Из соседней комнаты пахло варе","иками."],a:"Н",w:"← варё<b>н</b>ый → Н."}
+    ]
+  }
+];
+
+// Формат задания 15: пропуски помечены {1},{2}... instr — что спрашивают ("НН" или "Н").
+// answer — номера, на месте которых стоит буква из instr.
+const EGE = [
+  {
+    instr:"НН",
+    text:"Впоследствии я обнаружил на чердаке какие‑то необыкнове{1}ые рукописи, переплетё{2}ые в кожа{3}ые тома и писа{4}ые по‑латыни.",
+    answer:[1,2,4],
+    notes:[
+      "необыкнове<b>нн</b>ые — прилагательное, «обыкновение» + ‑енн‑ → НН",
+      "переплетё<b>нн</b>ые — причастие: приставка пере‑, совершенный вид → НН",
+      "кожа<b>н</b>ые — прилагательное, суффикс ‑ан‑ → Н",
+      "писа<b>нн</b>ые по‑латыни — есть зависимое слово «по‑латыни» → причастие → НН"
+    ]
+  },
+  {
+    instr:"НН",
+    text:"Персидские придворные были ожесточё{1}о настрое{2}ы против русского посла{3}ика, но А.С. Грибоедов был изыска{4}о вежлив, вёл себя сдержа{5}о и повода для конфликта не давал.",
+    answer:[1,3,4,5],
+    notes:[
+      "ожесточё<b>нн</b>о — наречие ← ожесточённый → НН",
+      "настрое<b>н</b>ы — краткое причастие → Н",
+      "посла<b>нн</b>ика — существительное ← посланный → НН",
+      "изыска<b>нн</b>о — наречие ← изысканный → НН",
+      "сдержа<b>нн</b>о — наречие ← сдержанный → НН"
+    ]
+  },
+  {
+    instr:"НН",
+    text:"Леруа хитрит, как всякий исти{1}ый француз, утверждая, что всё это лишь художестве{2}ое произведение, а многие характеры открове{3}о вымышле{4}ы.",
+    answer:[1,2,3],
+    notes:[
+      "исти<b>нн</b>ый — «истина» + ‑н‑ → НН",
+      "художестве<b>нн</b>ое — суффикс ‑енн‑ → НН",
+      "открове<b>нн</b>о — наречие ← откровенный → НН",
+      "вымышле<b>н</b>ы — краткое причастие → Н"
+    ]
+  },
+  {
+    instr:"НН",
+    text:"Третьяковская галерея расположе{1}а в здании, образова{2}ом из стари{3}ого реконструирова{4}ого дома П. М. Третьякова и ряда разновреме{5}ых пристроек.",
+    answer:[2,3,4,5],
+    notes:[
+      "расположе<b>н</b>а — краткое причастие → Н",
+      "образова<b>нн</b>ом — полное причастие: приставка об‑, суффикс ‑ова‑ → НН",
+      "стари<b>нн</b>ого — «старина» + ‑н‑ → НН",
+      "реконструирова<b>нн</b>ого — причастие, суффикс ‑ова‑ → НН",
+      "разновреме<b>нн</b>ых — «время» (времён) + ‑н‑ / ‑енн‑ → НН"
+    ]
+  },
+  {
+    instr:"НН",
+    text:"Окута{1}ый ра{2}им сумраком кабинет снова принадлежал ему со своими затемнё{3}ыми углами, с креслом‑качалкой и кожа{4}ым продавле{5}ым диваном, со старым, грызе{6}ым молью ковром.",
+    answer:[1,2,3,5,6],
+    notes:[
+      "окута<b>нн</b>ый — причастие, приставка о‑ → НН",
+      "ра<b>нн</b>им — прилагательное «ранний» → НН",
+      "затемнё<b>нн</b>ыми — причастие, приставка за‑ → НН",
+      "кожа<b>н</b>ым — суффикс ‑ан‑ → Н",
+      "продавле<b>нн</b>ым — причастие, приставка про‑ → НН",
+      "грызе<b>нн</b>ым молью — зависимое слово «молью» → причастие → НН"
+    ]
+  },
+  {
+    instr:"Н",
+    text:"На праздничном ужине было сказа{1}о много тёплых слов, адресова{2}ых юбиляру, который растрога{3}о благодарил пришедших друзей.",
+    answer:[1],
+    notes:[
+      "сказа<b>н</b>о — краткое причастие («было сказано») → Н",
+      "адресова<b>нн</b>ых — причастие, суффикс ‑ова‑ → НН",
+      "растрога<b>нн</b>о — наречие ← растроганный → НН"
+    ]
+  },
+  {
+    instr:"Н",
+    text:"Муравьи — настоящие труже{1}ики: они постоя{2}о строят и чинят своё дикови{3}ое жилище, муравьи{4}ую кучу, которая кажется беспорядочным нагроможде{5}ием иголок, а на деле — разумно устрое{6}ый «город», где всё подчине{7}о строгой системе.",
+    answer:[1,4,5,7],
+    notes:[
+      "труже<b>н</b>ики — существительное, запомнить → Н",
+      "постоя<b>нн</b>о — наречие ← постоянный → НН",
+      "дикови<b>нн</b>ое — «диковина» + ‑н‑ → НН",
+      "муравьи<b>н</b>ую — суффикс ‑ин‑ → Н",
+      "нагроможде<b>н</b>ием — существительное «нагромождение» → Н",
+      "устрое<b>нн</b>ый — причастие: приставка у‑, совершенный вид → НН",
+      "подчине<b>н</b>о — краткое причастие → Н"
+    ]
+  },
+  {
+    instr:"НН",
+    text:"В стари{1}ом доме недавно была отремонтирова{2}а гости{3}ая с деревя{4}ыми панелями и кова{5}ой люстрой, купле{6}ой на аукционе.",
+    answer:[1,4,6],
+    notes:[
+      "стари<b>нн</b>ом — «старина» + ‑н‑ → НН",
+      "отремонтирова<b>н</b>а — краткое причастие → Н",
+      "гости<b>н</b>ая — существительное, запомнить → Н",
+      "деревя<b>нн</b>ыми — исключение (стеклянный, оловянный, деревянный) → НН",
+      "кова<b>н</b>ой — исключение «кованый», зависимого слова нет → Н",
+      "купле<b>нн</b>ой на аукционе — совершенный вид + зависимое слово → НН"
+    ]
+  }
+];
+
+/* ---------- state ---------- */
+const KEY="zad15_progress_v1";
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){state={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+let TOTAL=0;
+DRILLS.forEach(b=>TOTAL+=b.items.length);
+TOTAL+=EGE.length;
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function updateHud(){
+  let done=0,ok=0;
+  Object.values(state).forEach(v=>{done++;if(v.ok)ok++});
+  document.getElementById("hud-done").textContent=done;
+  document.getElementById("hud-total").textContent=TOTAL;
+  document.getElementById("hud-ok").textContent=ok;
+}
+
+/* ---------- render drills ---------- */
+const app=document.getElementById("app");
+DRILLS.forEach(b=>{
+  const sec=document.createElement("section");
+  sec.className="block";
+  sec.id="b"+b.block;
+  sec.innerHTML=`
+    <div class="block-head"><span class="bn">${b.block}</span><h2>${b.title}</h2></div>
+    <p class="block-sub">${b.sub}</p>
+    <details class="cheat"><summary>Шпаргалка</summary>
+      <div class="cheat-body">${b.cheat.map(p=>`<p>${p}</p>`).join("")}</div>
+    </details>
+    <div class="items"></div>`;
+  const box=sec.querySelector(".items");
+  b.items.forEach((it,i)=>{
+    const id="d"+b.block+"-"+i;
+    const [pre,post]=it.t;
+    const div=document.createElement("div");
+    div.className="item";
+    div.innerHTML=`
+      <p class="q">${esc(pre)}<span class="slot">н·нн</span>${esc(post)}</p>
+      <div class="opts">
+        <button data-o="Н">Н</button>
+        <button data-o="НН">НН</button>
+        <button class="skip" data-o="__skip">не знаю</button>
+      </div>
+      <div class="why"><span class="verdict"></span> <span class="ans"></span><br>${it.w}</div>`;
+    const opts=div.querySelector(".opts");
+    const why=div.querySelector(".why");
+    const slot=div.querySelector(".slot");
+    function lock(chosen){
+      opts.querySelectorAll("button").forEach(btn=>{
+        btn.disabled=true;
+        const o=btn.dataset.o;
+        if(o===it.a)btn.classList.add(chosen===it.a?"pick-right":"reveal");
+        else if(o===chosen && chosen!=="__skip")btn.classList.add("pick-wrong");
+      });
+      slot.textContent=it.a.toLowerCase();
+      slot.classList.add(chosen==="__skip"?"ok":(chosen===it.a?"ok":"no"));
+      const v=why.querySelector(".verdict");
+      if(chosen==="__skip"){v.textContent="Ответ:";v.className="verdict";}
+      else if(chosen===it.a){v.textContent="Верно.";v.className="verdict ok";}
+      else{v.textContent="Мимо.";v.className="verdict no";}
+      why.querySelector(".ans").textContent=it.a+".";
+      why.classList.add("show");
+    }
+    opts.addEventListener("click",e=>{
+      const btn=e.target.closest("button");if(!btn)return;
+      const chosen=btn.dataset.o;
+      state[id]={ok:chosen===it.a,skip:chosen==="__skip",pick:chosen};
+      save();lock(chosen);updateHud();
+    });
+    if(state[id]){
+      const prev=state[id];
+      lock(prev.pick || (prev.skip?"__skip":(prev.ok?it.a:"__wrong")));
+    }
+    box.appendChild(div);
+  });
+  app.appendChild(sec);
+});
+
+/* ---------- render ege ---------- */
+const egeBox=document.getElementById("ege-items");
+EGE.forEach((q,qi)=>{
+  const id="e"+qi;
+  const answer=q.answer.slice().sort((a,b)=>a-b);
+  const other=q.instr==="НН"?"Н":"НН";
+  const div=document.createElement("div");
+  div.className="item ege-item";
+  const sentHtml=esc(q.text).replace(/\{(\d)\}/g,(m,n)=>`<button class="snum" data-n="${n}">${n}</button>`);
+  div.innerHTML=`
+    <p class="task">Задание ${qi+1}</p>
+    <p class="ege-q">Укажите все цифры, на месте которых пишется <b>${q.instr}</b>.</p>
+    <p class="ege-sent">${sentHtml}</p>
+    <div class="row"><button class="check">Проверить</button><span class="hintline">отметь номера, где <b>${q.instr}</b></span></div>
+    <div class="why"><span class="verdict"></span> <span class="ans"></span>
+      <ol class="breakdown">${q.notes.map(n=>`<li>${n}</li>`).join("")}</ol></div>`;
+  const nums=[...div.querySelectorAll(".snum")];
+  const checkBtn=div.querySelector(".check");
+  const why=div.querySelector(".why");
+  const bd=[...div.querySelectorAll(".breakdown li")];
+  let sel=new Set(state[id] && state[id].sel ? state[id].sel : []);
+
+  function paintSel(){
+    nums.forEach(b=>{
+      const n=+b.dataset.n;
+      b.classList.toggle("on",sel.has(n));
+      b.setAttribute("aria-pressed",sel.has(n)?"true":"false");
+    });
+  }
+  function lock(){
+    nums.forEach(b=>{
+      const n=+b.dataset.n;
+      b.disabled=true;b.classList.remove("on");
+      if(answer.includes(n))b.classList.add("num-right");
+      else if(sel.has(n))b.classList.add("num-wrong");
+    });
+    checkBtn.disabled=true;
+    div.querySelector(".hintline").style.display="none";
+    const ok=sel.size===answer.length && [...sel].every(n=>answer.includes(n));
+    const v=why.querySelector(".verdict");
+    v.textContent=ok?"Верно." : (sel.size?"Не совсем." : "Ответ:");
+    v.className="verdict "+(ok?"ok":(sel.size?"no":""));
+    why.querySelector(".ans").textContent=q.instr+" на месте: "+answer.join(", ")+".";
+    bd.forEach((li,i)=>{ if(answer.includes(i+1)) li.classList.add("bd-hit"); });
+    why.classList.add("show");
+  }
+  nums.forEach(b=>b.addEventListener("click",()=>{
+    const n=+b.dataset.n;
+    sel.has(n)?sel.delete(n):sel.add(n);
+    paintSel();
+  }));
+  checkBtn.addEventListener("click",()=>{
+    const ok=sel.size===answer.length && [...sel].every(n=>answer.includes(n));
+    state[id]={ok,sel:[...sel]};save();lock();updateHud();
+  });
+  paintSel();
+  if(state[id])lock();
+  egeBox.appendChild(div);
+});
+
+document.getElementById("reset").addEventListener("click",()=>{
+  state={};save();location.reload();
+});
+updateHud();
+</script>

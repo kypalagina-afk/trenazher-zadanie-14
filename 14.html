@@ -1,0 +1,664 @@
+<title>Слитно, раздельно, дефис</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap">
+<style>
+  :root{
+    --paper:#eef1f4;
+    --card:#ffffff;
+    --card-2:#f6f8fa;
+    --ink:#1b2630;
+    --muted:#5c6b78;
+    --line:#d9e0e6;
+    --accent:#37597c;
+    --accent-soft:#e7edf3;
+    --right:#1c7a49;
+    --right-bg:#e6f2ea;
+    --right-line:#bfe0cd;
+    --wrong:#b83a2b;
+    --wrong-bg:#f9e9e6;
+    --wrong-line:#eec7bf;
+    --shadow:0 1px 2px rgba(27,38,48,.06),0 8px 24px rgba(27,38,48,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#10151a;
+      --card:#181f26;
+      --card-2:#141a20;
+      --ink:#e3e9ee;
+      --muted:#93a2ae;
+      --line:#28323b;
+      --accent:#8db4d8;
+      --accent-soft:#1e2a35;
+      --right:#5cc78d;
+      --right-bg:#152a20;
+      --right-line:#27503a;
+      --wrong:#e78a7d;
+      --wrong-bg:#2c1a17;
+      --wrong-line:#54302a;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#10151a;
+    --card:#181f26;
+    --card-2:#141a20;
+    --ink:#e3e9ee;
+    --muted:#93a2ae;
+    --line:#28323b;
+    --accent:#8db4d8;
+    --accent-soft:#1e2a35;
+    --right:#5cc78d;
+    --right-bg:#152a20;
+    --right-line:#27503a;
+    --wrong:#e78a7d;
+    --wrong-bg:#2c1a17;
+    --wrong-line:#54302a;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"PT Sans","Segoe UI",system-ui,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 120px}
+
+  /* ---------- header ---------- */
+  header{margin-bottom:14px}
+  .eyebrow{
+    font-family:"PT Mono",ui-monospace,monospace;
+    font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 12px;
+  }
+  h1{
+    font-family:"PT Serif",Georgia,serif;
+    font-weight:700;font-size:2.15rem;line-height:1.12;
+    margin:0 0 10px;text-wrap:balance;letter-spacing:-.01em;
+  }
+  .lede{color:var(--muted);font-size:1.04rem;margin:0;max-width:60ch}
+  .lede b{color:var(--ink);font-weight:700}
+
+  /* ---------- error map ---------- */
+  .map{
+    margin:26px 0 8px;padding:18px 18px 8px;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    box-shadow:var(--shadow);
+  }
+  .map h2{
+    font-family:"PT Sans",sans-serif;font-weight:700;font-size:.78rem;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 14px;
+  }
+  .map ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  .map li{
+    display:grid;grid-template-columns:26px 1fr auto;align-items:baseline;
+    gap:10px;padding:8px 6px;border-bottom:1px solid var(--line);
+  }
+  .map li:last-child{border-bottom:0}
+  .map .n{
+    font-family:"PT Serif",serif;font-weight:700;color:var(--accent);
+    font-size:1.05rem;
+  }
+  .map .t{color:var(--ink);font-size:.96rem}
+  .map .c{
+    font-family:"PT Mono",monospace;font-size:.76rem;color:var(--muted);
+    white-space:nowrap;
+  }
+  .map .c.hot{color:var(--wrong)}
+  .map a{color:var(--accent)}
+
+  /* ---------- block ---------- */
+  .block{margin-top:38px;scroll-margin-top:16px}
+  .block-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .block-head .bn{
+    font-family:"PT Serif",serif;font-weight:700;font-size:1.7rem;
+    color:var(--accent);line-height:1;flex:none;
+  }
+  .block-head h2{
+    font-family:"PT Serif",serif;font-weight:700;font-size:1.4rem;
+    margin:0;line-height:1.2;text-wrap:balance;
+  }
+  .block-sub{color:var(--muted);font-size:.92rem;margin:2px 0 0 40px}
+
+  details.cheat{
+    margin:14px 0 6px 0;border:1px solid var(--line);border-radius:10px;
+    background:var(--card-2);overflow:hidden;
+  }
+  details.cheat > summary{
+    cursor:pointer;padding:11px 15px;font-weight:700;font-size:.9rem;
+    color:var(--accent);list-style:none;display:flex;align-items:center;gap:8px;
+    user-select:none;
+  }
+  details.cheat > summary::-webkit-details-marker{display:none}
+  details.cheat > summary::before{content:"›";font-size:1.1rem;transition:transform .15s}
+  details.cheat[open] > summary::before{transform:rotate(90deg)}
+  .cheat-body{
+    padding:4px 16px 16px;border-top:1px solid var(--line);
+    font-size:.95rem;color:var(--ink);
+  }
+  .cheat-body p{margin:12px 0}
+  .cheat-body p:first-child{margin-top:12px}
+  .cheat-body b{color:var(--ink)}
+  .cheat-body .m{
+    display:block;margin:12px 0;padding-left:13px;border-left:3px solid var(--accent);
+    color:var(--muted);font-style:italic;
+  }
+  .cheat-body code{
+    font-family:"PT Mono",monospace;font-size:.86em;
+    background:var(--accent-soft);padding:1px 5px;border-radius:4px;color:var(--ink);
+  }
+
+  /* ---------- drill items ---------- */
+  .items{margin-top:10px}
+  .item{padding:16px 0;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:0}
+  .q{font-size:1.05rem;margin:0 0 11px}
+  .tok{
+    font-family:"PT Mono",monospace;font-size:.94em;
+    background:var(--accent-soft);color:var(--ink);
+    padding:1px 6px;border-radius:5px;white-space:nowrap;
+  }
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opts button{
+    font-family:"PT Sans",sans-serif;font-size:.9rem;font-weight:700;
+    color:var(--ink);background:var(--card);
+    border:1.5px solid var(--line);border-radius:999px;
+    padding:6px 15px;cursor:pointer;transition:border-color .12s,background .12s;
+  }
+  .opts button:hover:not(:disabled){border-color:var(--accent)}
+  .opts button:disabled{cursor:default}
+  .opts button.pick-right{background:var(--right-bg);border-color:var(--right);color:var(--right)}
+  .opts button.pick-wrong{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong)}
+  .opts button.reveal{border-color:var(--right);color:var(--right)}
+  .opts .skip{border-style:dashed;color:var(--muted);font-weight:400}
+  .why{
+    margin-top:11px;padding:10px 13px;border-radius:8px;font-size:.92rem;
+    background:var(--card-2);border:1px solid var(--line);
+    display:none;
+  }
+  .why.show{display:block}
+  .why .verdict{font-weight:700}
+  .why .verdict.ok{color:var(--right)}
+  .why .verdict.no{color:var(--wrong)}
+  .why .ans{font-family:"PT Mono",monospace;font-weight:700;color:var(--ink)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+  /* ---------- ege ---------- */
+  .ege .item{padding:22px 0}
+  .ege .task{font-family:"PT Mono",monospace;font-weight:400;font-size:.72rem;color:var(--accent);margin:0 0 8px;text-transform:uppercase;letter-spacing:.12em}
+  .ege .ege-q{font-size:.98rem;color:var(--ink);margin:0 0 14px}
+  .ege .ege-q b{color:var(--accent)}
+  .ege ul.sents{margin:0 0 14px;padding:0;list-style:none;display:grid;gap:9px}
+  .ege ul.sents li{display:flex;gap:11px;align-items:flex-start;font-size:1.02rem;line-height:1.5}
+  .snum{
+    flex:none;width:26px;height:26px;margin-top:1px;
+    font-family:"PT Mono",monospace;font-size:.82rem;font-weight:700;
+    border:1.5px solid var(--line);border-radius:7px;background:var(--card);
+    color:var(--muted);cursor:pointer;transition:border-color .12s,background .12s,color .12s;
+  }
+  .snum:hover:not(:disabled){border-color:var(--accent);color:var(--ink)}
+  .snum.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .snum.num-right{background:var(--right-bg);border-color:var(--right);color:var(--right)}
+  .snum.num-wrong{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong)}
+  .ege .brk{font-family:"PT Mono",monospace;font-weight:700;color:var(--accent);white-space:nowrap}
+  .ege .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .ege .hintline{color:var(--muted);font-size:.85rem}
+  .ege .check{
+    font-family:"PT Sans",sans-serif;font-weight:700;font-size:.9rem;
+    padding:8px 20px;border-radius:8px;border:1.5px solid var(--accent);
+    background:var(--accent);color:#fff;cursor:pointer;
+  }
+  .ege .check:disabled{opacity:.5;cursor:default}
+  .ege .breakdown{margin:10px 0 0;padding-left:20px;display:grid;gap:5px}
+  .ege .breakdown li{font-size:.9rem;color:var(--muted)}
+  .ege .breakdown li.bd-hit{color:var(--ink);font-weight:700}
+  .ege .why .ans{display:block;margin-top:4px}
+
+  /* ---------- progress ---------- */
+  .hud{
+    position:fixed;right:16px;bottom:16px;z-index:20;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    box-shadow:var(--shadow);padding:8px 16px;font-size:.85rem;
+    display:flex;gap:12px;align-items:center;
+  }
+  .hud b{font-family:"PT Mono",monospace;color:var(--accent)}
+  .hud .rst{
+    background:none;border:0;color:var(--muted);cursor:pointer;font-size:.8rem;
+    text-decoration:underline;padding:0;
+  }
+  @media (max-width:520px){
+    h1{font-size:1.8rem}
+    .map li{grid-template-columns:22px 1fr;gap:8px}
+    .map .c{grid-column:2;margin-top:2px}
+    .hud{right:10px;bottom:10px;padding:7px 12px;font-size:.8rem}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Саша · 11 класс · ЕГЭ, задание 14</p>
+    <h1>Слитно, раздельно, дефис</h1>
+    <p class="lede">Точечная отработка по следам диагностики: <b>6 блоков</b>, где написание выбрано неверно, и <b>5 заданий</b> в актуальном формате ЕГЭ (отметить все номера, где оба слова — в одну сторону). Разбор — по нашему конспекту: «слова‑магниты», «шпионы», «указательный палец».</p>
+  </header>
+
+  <nav class="map">
+    <h2>Карта ошибок в диагностике</h2>
+    <ol>
+      <li><span class="n">1</span><span class="t">Союз или «указательное / наречие + частица»: <i>тоже / то же, чтобы / что бы, зато / за то, поэтому / по этому</i></span><span class="c hot">5 ошибок</span></li>
+      <li><span class="n">2</span><span class="t">Производные предлоги: <i>несмотря на, ввиду / в виду, вслед / в след</i></span><span class="c hot">3 ошибки</span></li>
+      <li><span class="n">3</span><span class="t">Наречие (куда? где?) или «предлог + сущ.»: <i>вглубь / в глубь, вдаль / в даль, сначала / с начала, впотьмах, вблизи</i></span><span class="c hot">4 ошибки</span></li>
+      <li><span class="n">4</span><span class="t">Наречия слитно / устойчиво раздельно: <i>попросту, без разбору</i></span><span class="c">2 ошибки</span></li>
+      <li><span class="n">5</span><span class="t">Дефис в наречиях: <i>по‑ + ‑ому / ‑ему / ‑и</i> (по‑мужски)</span><span class="c">2 ошибки</span></li>
+      <li><span class="n">6</span><span class="t"><i>как будто</i> — всегда в два слова, без дефиса</span><span class="c">1 ошибка</span></li>
+    </ol>
+  </nav>
+
+  <main id="app"></main>
+
+  <section class="block ege" id="ege">
+    <div class="block-head"><span class="bn">✓</span><h2>Как на ЕГЭ</h2></div>
+    <p class="block-sub" style="margin-left:44px">Раскрой скобки в уме и отметь номера предложений, где <b>оба</b> выделенных слова пишутся в заданную сторону. Верных вариантов может быть один или несколько.</p>
+    <div class="items" id="ege-items"></div>
+  </section>
+</div>
+
+<div class="hud">
+  <span>Пройдено <b id="hud-done">0</b>/<b id="hud-total">0</b></span>
+  <span>Верно <b id="hud-ok">0</b></span>
+  <button class="rst" id="reset">сбросить</button>
+</div>
+
+<script>
+const DRILLS = [
+  {
+    block:1,
+    title:"Союз или «указательное / наречие + частица»",
+    sub:"тоже / то же · также / так же · чтобы / что бы · зато / за то · поэтому / по этому · потому / по тому",
+    cheat:[
+      "<b>ТОЖЕ, ТАКЖЕ = «ещё и, вдобавок»</b> — союз, слитно. «Он устал, я <b>тоже</b> устал» = «ещё и я».",
+      "<b>ТО ЖЕ, ТАК ЖЕ</b> — «же» можно опустить или переставить. Подсказки: <code>ВСЁ то же</code>, <code>то же, ЧТО и</code>, <code>ОДНО и то же</code>, <code>то же САМОЕ</code>; <code>ВСЁ так же</code>, <code>так же, КАК и</code>, <code>ТОЧНО так же</code>.",
+      "<b>ЧТОБЫ / ЧТОБ</b> — есть цель, «бы» не оторвать и не переставить. <b>ЧТО БЫ</b> — «бы» убирается или переставляется, цели нет: «что бы ни случилось» → «что ни случилось бы».",
+      "<b>ЗАТО = «но»</b> (перед ним запятая). <b>ЗА ТО</b> — указательное «то» («за то самое»).",
+      "<b>ПОЭТОМУ, ПОТОМУ = «по причине этого»</b> — слитно. <b>ПО ЭТОМУ, ПО ТОМУ</b> — указ. местоимение + сущ.: «по этому самому пути», «по тому, как…».",
+      "<span class='m'>Частицы БЫ, ЖЕ, ЛИ — всегда раздельно: «всё же», «вряд ли», «хотя бы».</span>"
+    ],
+    items:[
+      {t:["Мой брат увлекается историей, я ","то","же"," собираю старинные монеты."],o:["слитно","раздельно"],a:"слитно",w:"«Ещё и, вдобавок» — союз ТОЖЕ. «То самое» не подставить."},
+      {t:["Она надела ","то","же"," платье, что было на ней вчера."],o:["слитно","раздельно"],a:"раздельно",w:"«То же, ЧТО…» = «то самое платье» → указ. местоимение + частица."},
+      {t:["","Что","бы"," не заблудиться в лесу, мы взяли компас."],o:["слитно","раздельно"],a:"слитно",w:"Есть цель; «бы» не оторвать → союз ЧТОБЫ."},
+      {t:["","Что","бы"," он ни говорил, ему никто не верил."],o:["слитно","раздельно"],a:"раздельно",w:"«Бы» переставляется («что ни говорил бы»), цели нет → ЧТО + БЫ."},
+      {t:["Дорога была тяжёлой, ","за","то"," виды вокруг открывались изумительные."],o:["слитно","раздельно"],a:"слитно",w:"ЗАТО = «но»."},
+      {t:["Ребёнка ругали не ","за","то",", что он разбил вазу, а за ложь."],o:["слитно","раздельно"],a:"раздельно",w:"«За то самое» — указательное «то» (проверяем указательным пальцем)."},
+      {t:["Весь день шёл дождь, ","по","этому"," экскурсию отменили."],o:["слитно","раздельно"],a:"слитно",w:"= «по причине этого» → ПОЭТОМУ."},
+      {t:["","По","этому"," маршруту мы уже ходили прошлым летом."],o:["слитно","раздельно"],a:"раздельно",w:"«По этому самому маршруту» — указ. местоимение + сущ."},
+      {t:["О многом можно судить ","по","тому",", как человек ведёт себя в мелочах."],o:["слитно","раздельно"],a:"раздельно",w:"«По тому, КАК…» — указательное «то»."},
+      {t:["Он опоздал, ","по","тому"," что застрял в пробке."],o:["слитно","раздельно"],a:"слитно",w:"Союз «потому что»."},
+      {t:["Я ","так","же",", как и ты, не люблю опаздывать."],o:["слитно","раздельно"],a:"раздельно",w:"«Так же, КАК и ты»; «же» можно убрать → ТАК + ЖЕ."},
+      {t:["Приходи вовремя, ","так","же"," не забудь документы."],o:["слитно","раздельно"],a:"слитно",w:"= «ещё и, вдобавок» → союз ТАКЖЕ."}
+    ]
+  },
+  {
+    block:2,
+    title:"Производные предлоги",
+    sub:"несмотря на · ввиду / в виду · вслед / в след",
+    cheat:[
+      "<b>НЕСМОТРЯ НА</b> — переносный смысл, = «вопреки»: «<b>несмотря на</b> дождь, пошли гулять». <b>НЕ СМОТРЯ</b> — деепричастие, прямой смысл, = «не глядя»: «играл, <b>не смотря</b> на клавиши».",
+      "<b>ВВИДУ = «из‑за, по причине»</b> — слитно: «опоздал <b>ввиду</b> пробки».",
+      "<b>Два глаза — два слова!</b> с виду, на виду, при виде, в виде, по виду, <b>в виду</b> — существительное. <code>иметь в виду</code> — всегда три слова.",
+      "<b>ВСЛЕД</b> — вектор движения: «смотрел <b>вслед</b> (кому?) поезду». <b>В СЛЕД</b> — существительное: «всматривался <b>в след</b> (кого?) зверя» = изучал отпечаток. Ещё: «шли <b>след в след</b>»."
+    ],
+    items:[
+      {t:["","Не","смотря"," на усталость, туристы продолжали путь."],o:["слитно","раздельно"],a:"слитно",w:"= «вопреки усталости» → предлог НЕСМОТРЯ НА."},
+      {t:["Мальчик шёл по тропинке, ","не","смотря"," под ноги."],o:["слитно","раздельно"],a:"раздельно",w:"= «не глядя под ноги» — деепричастие, прямой смысл."},
+      {t:["Поездку отменили ","в","виду"," непогоды."],o:["слитно","раздельно"],a:"слитно",w:"= «из‑за непогоды» → предлог ВВИДУ."},
+      {t:["Прошу иметь ","в","виду",", что офис работает до шести."],o:["слитно","раздельно"],a:"раздельно",w:"«Иметь в виду» — всегда три слова."},
+      {t:["","В","виду"," болезни лектора занятие перенесли."],o:["слитно","раздельно"],a:"слитно",w:"= «из‑за болезни» → предлог ВВИДУ."},
+      {t:["Собака бросилась ","в","след"," убегавшему коту."],o:["слитно","раздельно"],a:"слитно",w:"Вектор движения: вслед (кому?) коту."},
+      {t:["Охотник всматривался ","в","след"," зверя на снегу."],o:["слитно","раздельно"],a:"раздельно",w:"В след (кого?) зверя = в отпечаток → существительное."},
+      {t:["Мать долго смотрела ","в","след"," уходящему поезду."],o:["слитно","раздельно"],a:"слитно",w:"Вслед (кому?) поезду — вектор движения."}
+    ]
+  },
+  {
+    block:3,
+    title:"Наречие (куда? где?) или «предлог + сущ.»",
+    sub:"вглубь / в глубь · вдаль / в даль · вдали / в дали · сначала / с начала · вконец · впотьмах · вблизи",
+    cheat:[
+      "<b>Векторные наречия</b> (вглубь, вдаль, вдали, ввысь, наверх, наверху…). Правило: <b>есть сосед справа (сущ. или прил.) — пишем раздельно</b>. «уходил <b>вглубь</b>» (куда?) — но «<b>в глубь</b> (чего?) пещеры».",
+      "<b>Исключение — «вдали ОТ»:</b> сосед справа — предлог «от», а не сущ., поэтому <b>слитно</b>: «жили <b>вдали</b> от дорог».",
+      "<b>ВБЛИЗИ, ВДАЛЕКЕ — всегда слитно:</b> слов «близи», «далеке» нет, на соседа справа не смотрим. «дом <b>вблизи</b> дороги», «<b>вблизи</b> от озера».",
+      "<b>Порядок действий</b> — всегда слитно: <b>сначала</b> (вначале, поначалу) … <b>затем</b> … <b>наконец</b> … <b>впоследствии</b>. Но «<b>с начала</b> (чего?) года» — сущ. с предлогом.",
+      "<b>ВПОТЬМАХ</b> (а также второпях, впопыхах) — исключение, всегда слитно, хотя «предлог + сущ. во мн. ч.» обычно раздельно («в сердцах», «в потёмках»).",
+      "<b>ВКОНЕЦ = «совсем, очень сильно»:</b> «<b>вконец</b> измучился». Но «<b>в конец</b> (чего?) коридора»."
+    ],
+    items:[
+      {t:["Водолаз опускался всё ","в","глубь","."],o:["слитно","раздельно"],a:"слитно",w:"«Куда?» — соседа справа нет → наречие ВГЛУБЬ."},
+      {t:["Геологи спускались ","в","глубь"," пещеры."],o:["слитно","раздельно"],a:"раздельно",w:"В глубь (чего?) пещеры — есть сосед справа."},
+      {t:["Корабль медленно уходил ","в","даль","."],o:["слитно","раздельно"],a:"слитно",w:"«Куда?» — соседа нет → наречие ВДАЛЬ."},
+      {t:["Я смотрел ","в","даль"," моря и думал о доме."],o:["слитно","раздельно"],a:"раздельно",w:"В даль (чего?) моря — есть сосед справа."},
+      {t:["Маяк был виден ","в","дали","."],o:["слитно","раздельно"],a:"слитно",w:"«Где?» — соседа нет → наречие ВДАЛИ."},
+      {t:["Мы жили ","в","дали"," от больших дорог."],o:["слитно","раздельно"],a:"слитно",w:"«Вдали ОТ» — сосед справа предлог, значит слитно."},
+      {t:["","С","начала"," подумай, потом отвечай."],o:["слитно","раздельно"],a:"слитно",w:"Порядок действий (сначала… потом…) → наречие."},
+      {t:["","С","начала"," учебного года прошло два месяца."],o:["слитно","раздельно"],a:"раздельно",w:"С начала (чего?) года — сущ. с предлогом."},
+      {t:["","В","потьмах"," он не сразу нашёл выключатель."],o:["слитно","раздельно"],a:"слитно",w:"Исключение: впотьмах, второпях, впопыхах — всегда слитно."},
+      {t:["Дом стоял ","в","близи"," железной дороги."],o:["слитно","раздельно"],a:"слитно",w:"ВБЛИЗИ — всегда слитно: слова «близи» нет."},
+      {t:["Отдыхающие расположились ","в","близи"," от озера."],o:["слитно","раздельно"],a:"слитно",w:"Даже «вблизи от» — слитно."},
+      {t:["Он ","в","конец"," измучился за день."],o:["слитно","раздельно"],a:"слитно",w:"= «совсем, очень сильно» → наречие ВКОНЕЦ."},
+      {t:["Пройди ","в","конец"," коридора."],o:["слитно","раздельно"],a:"раздельно",w:"В конец (чего?) коридора — сущ. с предлогом."}
+    ]
+  },
+  {
+    block:4,
+    title:"Наречия слитно / устойчиво раздельно",
+    sub:"попросту · без разбору · вкратце · дотемна · за полночь · без удержу",
+    cheat:[
+      "<b>Наречия от прилагательных и наречий с приставкой</b> — слитно, потому что при разделении получается «предлог + чушь»: <b>попросту</b>, исподтишка, исподлобья, дотемна, вкратце, поровну, начеку, слева.",
+      "<b>Откровенные «шпионы»</b> — сочетания предлога с существительным — раздельно: <b>без разбору</b>, за полночь, под вечер, на память, на совесть, со временем, без удержу, с размаху.",
+      "<span class='m'>Проверка: если между предлогом и словом нельзя вставить определение или задать вопрос к слову — пишем слитно (напролом, отчасти, наизнанку).</span>"
+    ],
+    items:[
+      {t:["Он ","по","просту"," не захотел с нами разговаривать."],o:["слитно","раздельно"],a:"слитно",w:"Наречие (= «просто, без церемоний»), слитно. Ср. вкратце, исподтишка."},
+      {t:["Книги на полке стояли ","без","разбору","."],o:["слитно","раздельно"],a:"раздельно",w:"Устойчивое сочетание предлога с сущ. — раздельно."},
+      {t:["Задачу он объяснил ","в","кратце","."],o:["слитно","раздельно"],a:"слитно",w:"Наречие с приставкой от «краткий» — слитно (как исподтишка, вполголоса)."},
+      {t:["Гости разошлись далеко ","за","полночь","."],o:["слитно","раздельно"],a:"раздельно",w:"«За полночь» — предлог + сущ., раздельно."},
+      {t:["Мы разделили работу ","по","ровну","."],o:["слитно","раздельно"],a:"слитно",w:"Наречие с приставкой от «ровный» — слитно."},
+      {t:["Мы проговорили ","до","темна","."],o:["слитно","раздельно"],a:"слитно",w:"Наречие с приставкой — слитно (при разделении «предлог + чушь»)."},
+      {t:["Сторож всю ночь был ","на","чеку","."],o:["слитно","раздельно"],a:"слитно",w:"НАЧЕКУ — слитно (слова «чеку» здесь нет)."},
+      {t:["Он хохотал ","без","удержу","."],o:["слитно","раздельно"],a:"раздельно",w:"«Без удержу» — предлог + сущ., раздельно (как «без умолку»)."}
+    ]
+  },
+  {
+    block:5,
+    title:"Дефис в наречиях: по‑ + ‑ому / ‑ему / ‑и",
+    sub:"по‑своему · по‑английски · по‑зимнему (нареч.) / по зимнему (прил.)",
+    cheat:[
+      "<b>Наречие (как?) + приставка ПО‑ + суффикс ‑ОМУ / ‑ЕМУ / ‑И → дефис:</b> по‑мо<b>ему</b>, по‑русск<b>и</b>, по‑настоящ<b>ему</b>, по‑летн<b>ему</b>, по‑мужск<b>и</b>.",
+      "<b>Внимание:</b> «по летн<b>ему</b> (какому?) саду» — прилагательное, раздельно; «по мо<b>ему</b> (чьему?) дому» — местоимение, раздельно.",
+      "<b>Суффиксы не те (‑е, ‑ее) — слитно:</b> попозже, подолгу, потихоньку, поближе, помаленьку.",
+      "<span class='m'>Плюс дефис: кое‑, ‑то, ‑либо, ‑нибудь, ‑таки, ‑ка (кое‑что, как‑нибудь, всё‑таки).</span>"
+    ],
+    items:[
+      {t:["Поступай ","по","своему",", раз уверен в решении."],o:["слитно","раздельно","дефис"],a:"дефис",w:"Наречие «как?» + по‑ + ‑ему → по‑своему."},
+      {t:["Мы шли ","по","своему"," привычному маршруту."],o:["слитно","раздельно","дефис"],a:"раздельно",w:"«По своему (чьему?) маршруту» — местоимение + сущ."},
+      {t:["Ребёнок уже читает ","по","английски","."],o:["слитно","раздельно","дефис"],a:"дефис",w:"Наречие + по‑ + ‑и → по‑английски."},
+      {t:["Учитель отнёсся к нам ","по","отечески","."],o:["слитно","раздельно","дефис"],a:"дефис",w:"Наречие + по‑ + ‑и → по‑отечески."},
+      {t:["","По","зимнему"," лесу бродил лось."],o:["слитно","раздельно","дефис"],a:"раздельно",w:"«По зимнему (какому?) лесу» — прилагательное + сущ."},
+      {t:["Оденься ","по","зимнему",", на улице мороз."],o:["слитно","раздельно","дефис"],a:"дефис",w:"«Оденься как?» — наречие → по‑зимнему."},
+      {t:["Он ","всё","таки"," пришёл, хотя обещал остаться дома."],o:["слитно","раздельно","дефис"],a:"дефис",w:"«‑таки» после наречий, частиц, глаголов — через дефис: всё‑таки."},
+      {t:["Приходи ","по","позже",", я ещё не готов."],o:["слитно","раздельно","дефис"],a:"слитно",w:"Суффикс не тот (‑е) → слитно: попозже, подолгу, поближе."}
+    ]
+  },
+  {
+    block:6,
+    title:"«Как будто» — всегда в два слова, без дефиса",
+    sub:"как будто · то есть · так что — среди союзов дефисных нет",
+    cheat:[
+      "<b>Как будто</b> пишем мы в два слова, и нет дефиса никакого. <b>Как‑нибудь</b> — всегда с дефисом. <b>Будто ≠ ‑нибудь</b>, этого не позабудь.",
+      "<b>Составные союзы пишутся раздельно, дефиса среди них нет:</b> то есть, потому что, так как, так что, как только, лишь только.",
+      "<span class='m'>Ловушка: слышится «как‑то похоже на как‑нибудь» — но «будто» дефиса не требует никогда.</span>"
+    ],
+    items:[
+      {t:["Небо потемнело, ","как","будто"," собирался дождь."],o:["раздельно","дефис"],a:"раздельно",w:"«Как будто» — всегда два слова, без дефиса."},
+      {t:["Реши это ","как","нибудь"," сам."],o:["слитно","раздельно","дефис"],a:"дефис",w:"«‑нибудь» — всегда через дефис: как‑нибудь."},
+      {t:["Он замолчал, ","как","будто"," обидевшись."],o:["раздельно","дефис"],a:"раздельно",w:"«Как будто» — дефиса никакого."},
+      {t:["Мы не виделись год, ","то","есть"," с прошлого лета."],o:["слитно","раздельно","дефис"],a:"раздельно",w:"«То есть» — союз, пишется раздельно."},
+      {t:["Дождь усилился, ","так","что"," пришлось вернуться."],o:["слитно","раздельно","дефис"],a:"раздельно",w:"«Так что» — союз, пишется раздельно."},
+      {t:["Свет мигнул и погас, ","как","будто"," кто‑то выключил рубильник."],o:["раздельно","дефис"],a:"раздельно",w:"«Как будто» — всегда два слова."}
+    ]
+  }
+];
+
+// Формат актуального задания 14: указать ВСЕ номера предложений, где ОБА слова пишутся
+// в заданную сторону (слитно / раздельно / через дефис). Проверяемые слова помечены [[...]].
+const EGE = [
+  {
+    cat:"СЛИТНО",
+    sents:[
+      "[[(По)осеннему]] хмурое небо висело над городом, и [[от(того)]] на душе было тревожно.",
+      "Мы упрямо шли [[(в)перёд]], [[не(смотря)]] на усталость и дождь.",
+      "[[(В)течение]] часа он молчал, [[за(то)]] потом говорил без умолку.",
+      "[[(Что)бы]] ни случилось, я останусь, [[по(тому)]] что дал слово.",
+      "Он [[с(начала)]] растерялся, но [[(в)последствии]] освоился и работал уверенно."
+    ],
+    answer:[2,5],
+    notes:[
+      "по‑осеннему (наречие, по‑ + ‑ему → дефис) · оттого (= по причине → слитно)",
+      "вперёд (наречие → слитно) · несмотря на (= вопреки → слитно) — оба слитно",
+      "в течение (производный предлог времени → всегда раздельно) · зато (= но → слитно)",
+      "что бы ни (бы переставляется, цели нет → раздельно) · потому что (союз → слитно)",
+      "сначала (порядок действий → слитно) · впоследствии (всегда слитно) — оба слитно"
+    ]
+  },
+  {
+    cat:"РАЗДЕЛЬНО",
+    sents:[
+      "[[(В)дали]] показался парус, и все [[тот(час)]] бросились к окнам.",
+      "Он смотрел [[(в)даль]] моря так, [[как(будто)]] ждал кого‑то.",
+      "[[(В)виду]] непогоды рейс задержали, [[(по)этому]] мы опоздали на пересадку.",
+      "Я имел [[(в)виду]] совсем другое, и спорить [[(по)этому]] поводу не хочу.",
+      "[[(В)последствии]] он часто вспоминал этот день и рассказывал о нём [[(по)долгу]]."
+    ],
+    answer:[2,4],
+    notes:[
+      "вдали (где? соседа справа нет → слитно) · тотчас (= сразу → слитно)",
+      "в даль (чего?) моря (сосед справа → раздельно) · как будто (всегда два слова) — оба раздельно",
+      "ввиду (= из‑за → слитно) · поэтому (= по причине этого → слитно)",
+      "в виду («иметь в виду» — 3 слова → раздельно) · по этому поводу (указ. мест. + сущ. → раздельно) — оба раздельно",
+      "впоследствии (всегда слитно) · подолгу (суффикс «не тот» → слитно)"
+    ]
+  },
+  {
+    cat:"СЛИТНО",
+    sents:[
+      "[[(На)встречу]] нам дул ветер, [[(по)этому]] идти было тяжело.",
+      "Он вышел [[(на)встречу]] с другом и [[тут(же)]] пожалел об этом.",
+      "[[(В)следствие]] ошибки чертёж пришлось переделать, [[при(чём)]] дважды.",
+      "[[(Что)бы]] там ни говорили, а помощь [[(по)просту]] необходима.",
+      "Он вёл себя [[(по)детски]], и [[от(того)]] ему всё прощали."
+    ],
+    answer:[1,3],
+    notes:[
+      "навстречу (вектор движения → слитно) · поэтому (= по причине этого → слитно) — оба слитно",
+      "на встречу (с другом) (= на свидание, сущ. → раздельно) · тут же («же» — частица → раздельно)",
+      "вследствие (= из‑за → слитно) · причём (= вдобавок → слитно) — оба слитно",
+      "что бы ни (бы переставляется, цели нет → раздельно) · попросту (наречие → слитно)",
+      "по‑детски (по‑ + ‑и → дефис) · оттого (= по причине → слитно)"
+    ]
+  },
+  {
+    cat:"РАЗДЕЛЬНО",
+    sents:[
+      "Он благодарил меня [[за(то)]], что я поступил [[так(же)]], как обещал.",
+      "[[(В)виду]] болезни он не пришёл, но работу [[всё(таки)]] сдал вовремя.",
+      "[[(В)продолжение]] всего вечера он молчал и смотрел [[куда(то)]] в сторону.",
+      "Туристы поднялись [[(на)верх]] горы, [[что(бы)]] встретить рассвет.",
+      "Свет погас, и [[(в)потьмах]] я [[тот(час)]] потерял направление."
+    ],
+    answer:[1],
+    notes:[
+      "за то (= «за то самое, что» → раздельно) · так же (как обещал; «же» опускается → раздельно) — оба раздельно",
+      "ввиду (= из‑за → слитно) · всё‑таки («‑таки» → дефис)",
+      "в продолжение (вечера) (производный предлог → раздельно, 2 слова) · куда‑то («‑то» → дефис)",
+      "на верх (чего?) горы (сущ. с предлогом → раздельно) · чтобы (цель → слитно)",
+      "впотьмах (исключение → слитно) · тотчас (→ слитно)"
+    ]
+  },
+  {
+    cat:"ЧЕРЕЗ ДЕФИС",
+    sents:[
+      "Поступай [[(по)своему]], но делай всё [[как(следует)]].",
+      "Он говорил [[(по)русски]] чисто, [[кое(где)]] вставляя старые словечки.",
+      "[[(По)зимнему]] лесу мы шли долго, одевшись [[(по)теплее]].",
+      "Реши задачу [[как(нибудь)]], хотя бы [[кое(как)]].",
+      "Одевайся [[(по)летнему]] и держись [[(по)ближе]] ко мне."
+    ],
+    answer:[2,4],
+    notes:[
+      "по‑своему (по‑ + ‑ему → дефис) · как следует (→ раздельно)",
+      "по‑русски (по‑ + ‑и → дефис) · кое‑где («кое‑» → дефис) — оба через дефис",
+      "по зимнему (лесу) (по какому? прилаг. → раздельно) · потеплее (суффикс «не тот» → слитно)",
+      "как‑нибудь («‑нибудь» → дефис) · кое‑как («кое‑» → дефис) — оба через дефис",
+      "по‑летнему (наречие: одевайся как? → дефис) · поближе (суффикс «не тот» → слитно)"
+    ]
+  }
+];
+
+/* ---------- state ---------- */
+const KEY="zad14_progress_v1";
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){state={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+let TOTAL=0;
+DRILLS.forEach(b=>TOTAL+=b.items.length);
+TOTAL+=EGE.length;
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function updateHud(){
+  let done=0,ok=0;
+  Object.values(state).forEach(v=>{done++;if(v.ok)ok++});
+  document.getElementById("hud-done").textContent=done;
+  document.getElementById("hud-total").textContent=TOTAL;
+  document.getElementById("hud-ok").textContent=ok;
+}
+
+/* ---------- render drills ---------- */
+const app=document.getElementById("app");
+DRILLS.forEach(b=>{
+  const sec=document.createElement("section");
+  sec.className="block";
+  sec.id="b"+b.block;
+  sec.innerHTML=`
+    <div class="block-head"><span class="bn">${b.block}</span><h2>${b.title}</h2></div>
+    <p class="block-sub">${b.sub}</p>
+    <details class="cheat"><summary>Шпаргалка</summary>
+      <div class="cheat-body">${b.cheat.map(p=>`<p>${p}</p>`).join("")}</div>
+    </details>
+    <div class="items"></div>`;
+  const box=sec.querySelector(".items");
+  b.items.forEach((it,i)=>{
+    const id="d"+b.block+"-"+i;
+    const [pre,brk,post,tail]=[it.t[0],it.t[1],it.t[2],it.t[3]||""];
+    const cap = pre.trim()==="";
+    const brkDisp = brk ? (cap ? brk.charAt(0).toUpperCase()+brk.slice(1).toLowerCase() : brk.toLowerCase()) : "";
+    const tokTxt = brk ? `(${brkDisp})${post}` : post;
+    const div=document.createElement("div");
+    div.className="item";
+    div.dataset.id=id;
+    div.innerHTML=`
+      <p class="q">${esc(pre)}<span class="tok">${esc(tokTxt)}</span>${esc(tail)}</p>
+      <div class="opts">
+        ${it.o.map(o=>`<button data-o="${o}">${o}</button>`).join("")}
+        <button class="skip" data-o="__skip">не знаю</button>
+      </div>
+      <div class="why"><span class="verdict"></span> <span class="ans"></span><br>${it.w}</div>`;
+    const opts=div.querySelector(".opts");
+    const why=div.querySelector(".why");
+    const correctForm = brk ? (it.a==="дефис" ? `${brk.toLowerCase()}-${post}` : it.a==="слитно" ? `${brk.toLowerCase()}${post}` : `${brk.toLowerCase()} ${post}`) : post;
+    function lock(chosen){
+      opts.querySelectorAll("button").forEach(btn=>{
+        btn.disabled=true;
+        const o=btn.dataset.o;
+        if(o===it.a)btn.classList.add(chosen===it.a?"pick-right":"reveal");
+        else if(o===chosen && chosen!=="__skip")btn.classList.add("pick-wrong");
+      });
+      const v=why.querySelector(".verdict");
+      if(chosen==="__skip"){v.textContent="Ответ:";v.className="verdict";}
+      else if(chosen===it.a){v.textContent="Верно.";v.className="verdict ok";}
+      else{v.textContent="Мимо.";v.className="verdict no";}
+      why.querySelector(".ans").textContent="«"+correctForm+"» — "+it.a+".";
+      why.classList.add("show");
+    }
+    opts.addEventListener("click",e=>{
+      const btn=e.target.closest("button");if(!btn)return;
+      const chosen=btn.dataset.o;
+      state[id]={ok:chosen===it.a,skip:chosen==="__skip",pick:chosen};
+      save();lock(chosen);updateHud();
+    });
+    if(state[id]){
+      const prev=state[id];
+      lock(prev.pick || (prev.skip?"__skip":(prev.ok?it.a:"__restored")));
+    }
+    box.appendChild(div);
+  });
+  app.appendChild(sec);
+});
+
+/* ---------- render ege ---------- */
+const CAT_HINT={
+  "СЛИТНО":"оба слова пишутся слитно",
+  "РАЗДЕЛЬНО":"оба слова пишутся раздельно",
+  "ЧЕРЕЗ ДЕФИС":"оба слова пишутся через дефис"
+};
+const egeBox=document.getElementById("ege-items");
+EGE.forEach((q,qi)=>{
+  const id="e"+qi;
+  const answer=q.answer.slice().sort((a,b)=>a-b);
+  const div=document.createElement("div");
+  div.className="item ege-item";
+  const sentsHtml=q.sents.map((s,i)=>{
+    const h=esc(s).replace(/\[\[(.+?)\]\]/g,'<span class="brk">$1</span>');
+    return `<li><button class="snum" data-n="${i+1}" aria-pressed="false">${i+1}</button><span class="stext">${h}</span></li>`;
+  }).join("");
+  div.innerHTML=`
+    <p class="task">Задание ${qi+1}</p>
+    <p class="q ege-q">Укажите все варианты ответов, в которых <b>${CAT_HINT[q.cat]}</b>. Отметьте номера предложений.</p>
+    <ul class="sents">${sentsHtml}</ul>
+    <div class="row"><button class="check">Проверить</button><span class="hintline">выбери один или несколько номеров</span></div>
+    <div class="why"><span class="verdict"></span> <span class="ans"></span>
+      <ol class="breakdown">${q.notes.map(n=>`<li>${n}</li>`).join("")}</ol></div>`;
+  const nums=[...div.querySelectorAll(".snum")];
+  const checkBtn=div.querySelector(".check");
+  const why=div.querySelector(".why");
+  const bd=[...div.querySelectorAll(".breakdown li")];
+  let sel=new Set(state[id] && state[id].sel ? state[id].sel : []);
+
+  function paintSel(){
+    nums.forEach(b=>{
+      const n=+b.dataset.n;
+      b.classList.toggle("on",sel.has(n));
+      b.setAttribute("aria-pressed",sel.has(n)?"true":"false");
+    });
+  }
+  function lock(){
+    nums.forEach(b=>{
+      const n=+b.dataset.n;
+      b.disabled=true;
+      b.classList.remove("on");
+      if(answer.includes(n))b.classList.add("num-right");
+      else if(sel.has(n))b.classList.add("num-wrong");
+    });
+    checkBtn.disabled=true;
+    div.querySelector(".hintline").style.display="none";
+    const ok=sel.size===answer.length && [...sel].every(n=>answer.includes(n));
+    const v=why.querySelector(".verdict");
+    v.textContent=ok?"Верно." : (sel.size?"Не совсем." : "Ответ:");
+    v.className="verdict "+(ok?"ok":(sel.size?"no":""));
+    why.querySelector(".ans").textContent="Правильный ответ: "+answer.join(", ")+".";
+    bd.forEach((li,i)=>{ if(answer.includes(i+1)) li.classList.add("bd-hit"); });
+    why.classList.add("show");
+  }
+  nums.forEach(b=>b.addEventListener("click",()=>{
+    const n=+b.dataset.n;
+    sel.has(n)?sel.delete(n):sel.add(n);
+    paintSel();
+  }));
+  checkBtn.addEventListener("click",()=>{
+    const ok=sel.size===answer.length && [...sel].every(n=>answer.includes(n));
+    state[id]={ok,sel:[...sel]};save();lock();updateHud();
+  });
+  paintSel();
+  if(state[id])lock();
+  egeBox.appendChild(div);
+});
+
+document.getElementById("reset").addEventListener("click",()=>{
+  state={};save();location.reload();
+});
+updateHud();
+</script>
