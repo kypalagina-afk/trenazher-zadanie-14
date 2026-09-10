@@ -1,54 +1,67 @@
-<title>Тренажёры по русскому · ЕГЭ</title>
+<title>Тренажёры по русскому</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
-    --paper:#eef1f4;--card:#fff;--ink:#1b2630;--muted:#5c6b78;--line:#d9e0e6;
-    --accent:#37597c;--accent-soft:#e7edf3;
-    --shadow:0 1px 2px rgba(27,38,48,.06),0 8px 24px rgba(27,38,48,.05);
-  }
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-    --paper:#10151a;--card:#181f26;--ink:#e3e9ee;--muted:#93a2ae;--line:#28323b;
-    --accent:#8db4d8;--accent-soft:#1e2a35;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
-  }}
-  :root[data-theme="dark"]{
-    --paper:#10151a;--card:#181f26;--ink:#e3e9ee;--muted:#93a2ae;--line:#28323b;
-    --accent:#8db4d8;--accent-soft:#1e2a35;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    --bg:#09090f;--raise:#13131f;--inset:#0c0c17;--ink:#eceef7;--dim:#8f92b2;--line:#242440;
+    --neon:#22e3ff;--violet:#b877ff;
+    --glow-neon:0 0 12px rgba(34,227,255,.42),0 0 30px rgba(34,227,255,.14);
+    color-scheme:dark;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);
-    font-family:"PT Sans","Segoe UI",system-ui,sans-serif;line-height:1.6;
-    -webkit-font-smoothing:antialiased;}
-  .wrap{max-width:640px;margin:0 auto;padding:56px 20px 80px}
-  .eyebrow{font-family:"PT Mono",monospace;font-size:.72rem;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--accent);margin:0 0 14px}
-  h1{font-family:"PT Serif",Georgia,serif;font-weight:700;font-size:2.1rem;
-    line-height:1.14;margin:0 0 10px;letter-spacing:-.01em}
-  .lede{color:var(--muted);font-size:1.04rem;margin:0 0 36px;max-width:52ch}
-  .grid{display:grid;gap:14px}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(85% 45% at 50% -8%, rgba(34,227,255,.14), transparent 62%),
+      radial-gradient(65% 45% at 100% 2%, rgba(184,119,255,.11), transparent 58%),
+      radial-gradient(60% 40% at 0% 10%, rgba(184,119,255,.06), transparent 60%);
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:64px 20px 90px;position:relative}
+  .wrap::before{
+    content:"";position:absolute;inset:0 -40vw;z-index:-1;pointer-events:none;
+    background-image:repeating-linear-gradient(transparent 0 31px, rgba(34,227,255,.045) 31px 32px);
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 42%,transparent 64%);
+            mask-image:linear-gradient(180deg,transparent,#000 12%,#000 42%,transparent 64%);
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--neon);margin:0 0 20px;
+    text-shadow:0 0 10px rgba(34,227,255,.5);
+  }
+  h1{
+    font-family:"Unbounded","IBM Plex Sans",sans-serif;font-weight:700;
+    font-size:clamp(2.2rem,7.5vw,3.4rem);line-height:1.05;letter-spacing:-.02em;
+    margin:0 0 14px;color:#fff;
+    text-shadow:0 0 22px rgba(34,227,255,.3),0 0 60px rgba(34,227,255,.1);
+  }
+  h1 .v{color:var(--violet);text-shadow:0 0 24px rgba(184,119,255,.5),0 0 60px rgba(184,119,255,.18)}
+  .lede{color:var(--dim);font-size:1.04rem;margin:0;max-width:52ch}
+  .grid{display:grid;gap:14px;margin-top:36px}
   a.card{
     display:block;text-decoration:none;color:inherit;
-    background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:22px 22px;box-shadow:var(--shadow);
-    transition:border-color .14s,transform .14s;
+    background:var(--raise);border:1px solid var(--line);border-radius:14px;padding:22px 24px;
+    transition:border-color .16s,box-shadow .16s,transform .16s;
   }
-  a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  a.card:hover,a.card:focus-visible{border-color:var(--neon);box-shadow:var(--glow-neon);transform:translateY(-3px);outline:none}
   a.card .num{
-    font-family:"PT Mono",monospace;font-size:.74rem;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--accent);
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--neon);
   }
-  a.card h2{font-family:"PT Serif",serif;font-weight:700;font-size:1.35rem;margin:6px 0 4px}
-  a.card p{margin:0;color:var(--muted);font-size:.95rem}
-  footer{margin-top:40px;color:var(--muted);font-size:.85rem}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:10px}
+  a.card h2{font-family:"Unbounded",sans-serif;font-weight:600;font-size:1.32rem;margin:9px 0 6px;color:#fff}
+  a.card p{margin:0;color:var(--dim);font-size:.93rem}
+  footer{margin-top:44px;color:var(--dim);font-size:.84rem}
+  :focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:10px}
 </style>
 <div class="wrap">
   <p class="eyebrow">Саша · 11 класс · подготовка к ЕГЭ</p>
-  <h1>Тренажёры по русскому языку</h1>
-  <p class="lede">Точечная отработка тем по следам диагностики. Каждый тренажёр: краткие правила + разбор каждого пункта + задания в формате ЕГЭ. Прогресс сохраняется в браузере.</p>
+  <h1>Тренажёры<br>по <span class="v">русскому</span></h1>
+  <p class="lede">Точечная отработка по следам диагностик. В каждом тренажёре: краткие правила, разбор каждого пункта и задания в формате ЕГЭ. Прогресс сохраняется в браузере.</p>
   <div class="grid">
     <a class="card" href="14.html">
       <span class="num">Задание 14</span>
@@ -61,5 +74,5 @@
       <p>Прилагательные и причастия, краткие формы, наречия, существительные.</p>
     </a>
   </div>
-  <footer>Сделано для занятий. Материалы можно проходить в любом порядке и возвращаться к ним.</footer>
+  <footer>Проходить можно в любом порядке и возвращаться к темам.</footer>
 </div>
