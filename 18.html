@@ -1,0 +1,482 @@
+<title>Отправь запятую</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#09090f;
+    --raise:#13131f;
+    --inset:#0c0c17;
+    --ink:#eceef7;
+    --dim:#8f92b2;
+    --line:#242440;
+    --neon:#22e3ff;
+    --neon-ink:#06121a;
+    --violet:#b877ff;
+    --ok:#33f59a;
+    --no:#ff4f86;
+    --glow-neon:0 0 12px rgba(34,227,255,.42), 0 0 30px rgba(34,227,255,.14);
+    --glow-ok:0 0 12px rgba(51,245,154,.45), 0 0 28px rgba(51,245,154,.16);
+    --glow-no:0 0 12px rgba(255,79,134,.45), 0 0 28px rgba(255,79,134,.16);
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(85% 45% at 50% -8%, rgba(34,227,255,.13), transparent 62%),
+      radial-gradient(65% 40% at 100% 2%, rgba(184,119,255,.10), transparent 58%),
+      radial-gradient(70% 45% at 0% 8%, rgba(184,119,255,.05), transparent 60%);
+  }
+  .wrap{max-width:740px;margin:0 auto;padding:0 20px 132px}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:58px 0 32px;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .hero::before{
+    content:"";position:absolute;inset:0 -40vw;pointer-events:none;
+    background-image:repeating-linear-gradient(transparent 0 31px, rgba(34,227,255,.045) 31px 32px);
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 24%,#000 72%,transparent);
+            mask-image:linear-gradient(180deg,transparent,#000 24%,#000 72%,transparent);
+  }
+  .hero > *{position:relative}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--neon);margin:0 0 20px;
+    text-shadow:0 0 10px rgba(34,227,255,.5);
+  }
+  h1{
+    font-family:"Unbounded","IBM Plex Sans",sans-serif;font-weight:700;
+    font-size:clamp(2.3rem,7vw,3.7rem);line-height:1.03;letter-spacing:-.02em;
+    margin:0 0 20px;color:#fff;
+    text-shadow:0 0 22px rgba(34,227,255,.32),0 0 62px rgba(34,227,255,.12);
+  }
+  h1 .v{color:var(--violet);text-shadow:0 0 24px rgba(184,119,255,.5),0 0 60px rgba(184,119,255,.18)}
+  @keyframes flick{0%,100%{opacity:1}41%{opacity:1}42%{opacity:.35}44%{opacity:1}86%{opacity:1}87%{opacity:.5}89%{opacity:1}}
+  h1{animation:flick 2.6s ease-in-out .2s 1 both}
+  .lede{color:var(--dim);font-size:1.04rem;margin:0;max-width:58ch}
+  .lede b{color:var(--ink);font-weight:600}
+  @media (prefers-reduced-motion:reduce){h1{animation:none}}
+
+  /* ---------- diagnostics panel ---------- */
+  .map{
+    margin:26px 0 8px;padding:16px 20px 6px;position:relative;
+    background:var(--raise);border:1px solid var(--line);border-radius:12px;
+  }
+  .map::before{
+    content:"";position:absolute;left:0;top:16px;bottom:16px;width:2px;border-radius:2px;
+    background:var(--neon);box-shadow:var(--glow-neon);
+  }
+  .map h2{
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.7rem;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--neon);margin:0 0 12px;
+  }
+  .map ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+  .map li{
+    display:grid;grid-template-columns:24px 1fr auto;align-items:baseline;
+    gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);
+  }
+  .map li:last-child{border-bottom:0}
+  .map .n{font-family:"Unbounded",sans-serif;font-weight:700;color:var(--neon);font-size:1rem;text-shadow:0 0 12px rgba(34,227,255,.4)}
+  .map .t{color:var(--ink);font-size:.95rem}
+  .map .c{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--dim);white-space:nowrap}
+  .map .c.hot{color:var(--no);text-shadow:0 0 10px rgba(255,79,134,.35)}
+
+  /* ---------- blocks / cheat ---------- */
+  .block{margin-top:40px;scroll-margin-top:16px}
+  .block-head{display:flex;align-items:baseline;gap:14px;margin-bottom:4px}
+  .block-head .bn{
+    font-family:"Unbounded",sans-serif;font-weight:700;font-size:1.5rem;line-height:1;
+    flex:none;color:var(--neon);text-shadow:var(--glow-neon);
+  }
+  .block-head h2{
+    font-family:"Unbounded",sans-serif;font-weight:600;font-size:1.22rem;
+    margin:0;line-height:1.22;color:#fff;letter-spacing:-.01em;
+  }
+  .block-sub{color:var(--dim);font-size:.9rem;margin:3px 0 0 40px}
+  details.cheat{
+    margin:16px 0 6px;border:1px solid var(--line);border-radius:10px;
+    background:var(--inset);overflow:hidden;
+  }
+  details.cheat > summary{
+    cursor:pointer;padding:12px 16px;font-family:"IBM Plex Mono",monospace;
+    font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--neon);list-style:none;display:flex;align-items:center;gap:9px;user-select:none;
+  }
+  details.cheat > summary::-webkit-details-marker{display:none}
+  details.cheat > summary::before{content:"▸";font-size:.8rem;transition:transform .18s}
+  details.cheat[open] > summary::before{transform:rotate(90deg)}
+  .cheat-body{padding:6px 18px 18px;border-top:1px solid var(--line);font-size:.95rem;color:var(--ink)}
+  .cheat-body p{margin:13px 0}
+  .cheat-body b{color:#fff}
+
+  /* ---------- phone widget ---------- */
+  .phonewrap{display:flex;justify-content:center;margin:34px 0 16px}
+  .phone{
+    width:100%;max-width:380px;
+    background:linear-gradient(180deg,var(--raise),var(--inset));
+    border:1px solid var(--line);border-radius:36px;padding:9px;
+    box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(34,227,255,.05);
+  }
+  .phone-screen{background:var(--bg);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;height:610px}
+  .phone-status{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:11px 22px 2px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--dim);flex:none;
+  }
+  .phone-head{display:flex;align-items:center;gap:10px;padding:8px 16px 12px;border-bottom:1px solid var(--line);flex:none}
+  .phone-avatar{
+    width:36px;height:36px;border-radius:50%;background:var(--inset);border:1px solid var(--line);
+    display:grid;place-items:center;font-size:1.05rem;flex:none;
+  }
+  .phone-name{font-family:"Unbounded",sans-serif;font-weight:600;font-size:.9rem;color:#fff;line-height:1.3}
+  .phone-sub{font-size:.72rem;color:var(--ok)}
+  .phone-sub .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:5px;box-shadow:0 0 6px var(--ok)}
+
+  .thread{flex:1;overflow-y:auto;padding:14px 14px 8px;display:flex;flex-direction:column;gap:10px}
+  .bubble{max-width:82%;padding:9px 13px;border-radius:16px;font-size:.9rem;line-height:1.42}
+  .bubble.bot{align-self:flex-start;background:var(--raise);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink)}
+  .bubble.me{align-self:flex-end;background:linear-gradient(135deg,var(--neon),#0fb3d6);color:var(--neon-ink);border-bottom-right-radius:4px;font-weight:500}
+  .bubble.me.wrong{background:linear-gradient(135deg,#ff6f96,#e8386f);color:#2a0510}
+  .bubble .tick{display:block;text-align:right;font-size:.66rem;margin-top:3px;opacity:.7}
+  .typing{align-self:flex-start;display:flex;gap:4px;padding:11px 14px;background:var(--raise);border:1px solid var(--line);border-radius:16px;border-bottom-left-radius:4px}
+  .typing i{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:tbounce 1.1s infinite ease-in-out}
+  .typing i:nth-child(2){animation-delay:.15s}
+  .typing i:nth-child(3){animation-delay:.3s}
+  @keyframes tbounce{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+  @media (prefers-reduced-motion:reduce){.typing i{animation:none;opacity:.7}}
+
+  .divider{
+    align-self:stretch;background:var(--inset);border:1px solid var(--line);border-left:3px solid var(--violet);
+    border-radius:8px;padding:10px 13px;margin:2px 0;
+  }
+  .divider .dt{font-family:"IBM Plex Mono",monospace;font-weight:700;font-size:.72rem;color:var(--violet);letter-spacing:.05em}
+  .divider .dr{display:block;margin-top:4px;color:var(--dim);font-size:.78rem;line-height:1.45}
+
+  .composewrap{border-top:1px solid var(--line);padding:12px 14px 14px;background:var(--raise);flex:none}
+  .compose{display:flex;align-items:flex-end;gap:8px}
+  .draft{
+    flex:1;background:var(--inset);border:1px solid var(--line);border-radius:18px;
+    padding:9px 13px;font-size:.9rem;line-height:1.55;color:var(--ink);
+  }
+  .gapbtn{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:13px;height:17px;margin:0 1px;padding:0 3px;vertical-align:-2px;
+    font-family:"IBM Plex Mono",monospace;font-weight:700;font-size:.92rem;line-height:1;
+    border-radius:4px;border:1px dashed var(--line);color:var(--dim);opacity:.5;
+    cursor:pointer;background:transparent;transition:all .12s;
+  }
+  .gapbtn:hover{opacity:.85;border-color:var(--neon)}
+  .gapbtn.on{opacity:1;color:var(--neon-ink);background:var(--neon);border-style:solid;border-color:var(--neon);box-shadow:var(--glow-neon)}
+  .sendbtn{
+    flex:none;width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--neon);color:var(--neon-ink);display:grid;place-items:center;
+    box-shadow:var(--glow-neon);transition:transform .12s,box-shadow .12s;font-size:1.05rem;
+  }
+  .sendbtn:hover:not(:disabled){transform:scale(1.07)}
+  .sendbtn:disabled{opacity:.35;box-shadow:none;cursor:default;transform:none}
+  .donebox{text-align:center;color:var(--dim);font-size:.86rem;padding:4px 4px}
+  .donebox b{color:var(--ok);font-family:"IBM Plex Mono",monospace}
+  .hintrow{color:var(--dim);font-size:.72rem;margin:8px 2px 0;text-align:center}
+
+  /* ---------- hud ---------- */
+  .hud{
+    position:fixed;right:16px;bottom:16px;z-index:20;
+    background:var(--raise);border:1px solid var(--line);border-radius:999px;
+    box-shadow:0 0 0 1px rgba(34,227,255,.14),0 10px 34px rgba(0,0,0,.6);
+    padding:8px 16px;font-size:.82rem;color:var(--dim);
+    display:flex;gap:13px;align-items:center;
+  }
+  .hud b{font-family:"IBM Plex Mono",monospace;color:var(--neon);text-shadow:0 0 8px rgba(34,227,255,.45)}
+  .hud .rst{background:none;border:0;color:var(--dim);cursor:pointer;font-size:.78rem;text-decoration:underline;padding:0}
+  .hud .rst:hover{color:var(--no)}
+
+  :focus-visible{outline:2px solid var(--neon);outline-offset:2px;border-radius:4px}
+  @media (max-width:520px){
+    h1{font-size:1.9rem}
+    .map li{grid-template-columns:20px 1fr;gap:8px}
+    .map .c{grid-column:2;margin-top:2px}
+    .hud{right:10px;bottom:10px;padding:7px 12px;font-size:.78rem}
+    .phone-screen{height:540px}
+  }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Саша · 11 класс · ДЗ, задание 18</p>
+    <h1>Отправь <span class="v">запятую</span></h1>
+    <p class="lede">По следам домашки: вместо предложений — переписка. Жми на запятую в сообщении и отправляй. Особый упор на «вот» и «наконец» — здесь было всего <b>1 верный ответ из 5</b>.</p>
+  </header>
+
+  <nav class="map">
+    <h2>По итогам ДЗ №18</h2>
+    <ol>
+      <li><span class="n">1</span><span class="t">«о» перед обращением — лишняя запятая внутри фразы</span><span class="c hot">0/1</span></li>
+      <li><span class="n">2</span><span class="t">«вот» и «наконец» принимает за вводные слова</span><span class="c hot">1/5</span></li>
+      <li><span class="n">3</span><span class="t">Слово, которое путают с обращением</span><span class="c">4/5</span></li>
+      <li><span class="n">4</span><span class="t">Настоящие обращения</span><span class="c">13/15</span></li>
+      <li><span class="n">5</span><span class="t">Слова, которые никогда не вводные (однажды и т.п.)</span><span class="c">16/17</span></li>
+      <li><span class="n">6</span><span class="t">«Да» / «нет» как самостоятельный ответ</span><span class="c">28/29</span></li>
+    </ol>
+  </nav>
+
+  <section class="block">
+    <div class="block-head"><span class="bn">18</span><h2>Обращения и вводные слова</h2></div>
+    <p class="block-sub">запятые при обращении, «о» перед обращением, слова, которые только притворяются вводными</p>
+    <details class="cheat"><summary>Все правила одной строкой</summary>
+      <div class="cheat-body">
+        <p><b>1. «о» перед обращением</b> — пишется слитно с ним, без запятой внутри: «Не грусти, о моя Вера, –…» Запятая — только по краям всей фразы «о + обращение».</p>
+        <p><b>2. «вот»</b> — почти никогда вводное слово, запятыми не выделяется. <b>«наконец»</b> — вводное, только когда завершает перечисление («во-первых… наконец…») или звучит как «наконец-то» (раздражение); как наречие времени («в итоге») — без запятых.</p>
+        <p><b>3. Другие слова, которые никогда не вводные</b>: однажды, вдруг, будто, как будто, якобы, авось, именно, почти, приблизительно, вряд ли.</p>
+        <p><b>4. Настоящее обращение</b> всегда выделяется запятой: с двух сторон — в середине предложения, с одной — в начале или в конце.</p>
+        <p><b>5. «Да» и «нет»</b> как самостоятельный ответ-утверждение или отрицание тоже обособляются запятой: «Да, я помню».</p>
+      </div>
+    </details>
+  </section>
+
+  <div class="phonewrap">
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-status">
+          <span id="clock">9:41</span>
+          <span>📶 🔋</span>
+        </div>
+        <div class="phone-head">
+          <div class="phone-avatar">🖊️</div>
+          <div>
+            <div class="phone-name">Запятая-бот</div>
+            <div class="phone-sub"><span class="dot"></span>проверяет знаки</div>
+          </div>
+        </div>
+        <div class="thread" id="thread"></div>
+        <div class="composewrap">
+          <div class="compose">
+            <div class="draft" id="draft"></div>
+            <button class="sendbtn" id="sendbtn" aria-label="Отправить">➤</button>
+          </div>
+          <div class="hintrow" id="hintrow">жми на запятую в тексте, чтобы поставить/убрать её</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hud">
+  <span>Отправлено <b id="hud-done">0</b>/<b id="hud-total">13</b></span>
+  <span>Верно <b id="hud-ok">0</b></span>
+  <button class="rst" id="reset">сбросить</button>
+</div>
+
+<script>
+// segs[i] соединяются через gaps[i-1] (comma при true). gaps.length = segs.length-1
+const ITEMS = [
+  {type:"sys", title:"🔵 Тема 1 · «о» перед обращением", rule:"«о» приклеено к обращению, запятой внутри не бывает — только по краям всей фразы."},
+  {type:"msg", segs:["Прости меня","о","мама","я забыл про твой день рождения."], gaps:[true,false,true],
+    fixOk:"Точно! Внутри фразы «о мама» запятых нет.",
+    fixNo:"«Прости меня, о мама, я забыл про твой день рождения.» — между «о» и обращением запятой не бывает."},
+  {type:"msg", segs:["Ты не поверишь","о","друг мой","что сегодня случилось!"], gaps:[true,false,true],
+    fixOk:"Верно!",
+    fixNo:"«Ты не поверишь, о друг мой, что сегодня случилось!»"},
+  {type:"msg", segs:["Не грусти","о","моя","Вера","– остаются ещё должники!"], gaps:[true,false,false,true],
+    fixOk:"Верно! Это прямо из твоей домашки — запомнил.",
+    fixNo:"«Не грусти, о моя Вера, – остаются ещё должники!» — «о моя Вера» целиком, без запятых внутри."},
+
+  {type:"sys", title:"🟣 Тема 2 · «вот» и «наконец»", rule:"«вот» — почти никогда вводное. «наконец» — вводное, только когда завершает перечисление или значит «наконец-то»; как наречие времени («в итоге») — без запятых."},
+  {type:"msg", segs:["Вот","наконец","я добрался до дома."], gaps:[false,false],
+    fixOk:"Да! «наконец» тут = «в итоге» — наречие, а не вводное.",
+    fixNo:"«Вот наконец я добрался до дома.» — без запятых, оба слова не вводные."},
+  {type:"msg", segs:["И вот ты","наконец","написал мне!"], gaps:[false,false],
+    fixOk:"Верно, даже с иронией в голосе запятые тут не нужны.",
+    fixNo:"«И вот ты наконец написал мне!» — «наконец» = «в результате», без запятых."},
+  {type:"msg", segs:["Во-первых, я устал; во-вторых, проголодался","наконец","хочу домой."], gaps:[true,true],
+    fixOk:"Отлично! Тут «наконец» завершает список — это уже вводное.",
+    fixNo:"«…проголодался, наконец, хочу домой.» — «наконец» = «и ещё», перечисление, запятые нужны."},
+
+  {type:"sys", title:"🟢 Тема 3 · тоже не вводные", rule:"Однажды, вдруг, будто, якобы, авось, именно, почти — никогда не вводные слова."},
+  {type:"msg", segs:["Мы пошли","однажды","гулять вдоль пруда."], gaps:[false,false],
+    fixOk:"Верно, «однажды» — обычное наречие времени.",
+    fixNo:"«Мы пошли однажды гулять вдоль пруда.» — без запятых."},
+  {type:"msg", segs:["Вдруг","зазвонил телефон."], gaps:[false],
+    fixOk:"Верно, «вдруг» — никогда не вводное.",
+    fixNo:"«Вдруг зазвонил телефон.» — без запятой."},
+
+  {type:"sys", title:"🟡 Тема 4 · настоящие обращения", rule:"Обращение всегда выделяется запятой: с двух сторон в середине предложения, с одной — в начале или конце."},
+  {type:"msg", segs:["Не грусти","матерь Надежда","есть ещё у тебя сыновья."], gaps:[true,true],
+    fixOk:"Верно! Тоже прямо из домашки.",
+    fixNo:"«Не грусти, матерь Надежда, есть ещё у тебя сыновья.»"},
+  {type:"msg", segs:["Слушай","Саша","ты решил домашку?"], gaps:[true,true],
+    fixOk:"Верно!",
+    fixNo:"«Слушай, Саша, ты решил домашку?»"},
+  {type:"msg", segs:["Пап","ты купил хлеб?"], gaps:[true],
+    fixOk:"Верно! В начале предложения запятая — только после обращения.",
+    fixNo:"«Пап, ты купил хлеб?»"},
+
+  {type:"sys", title:"🔴 Тема 5 · да и нет", rule:"«Да» и «нет» как самостоятельный ответ-утверждение или отрицание тоже обособляются запятой."},
+  {type:"msg", segs:["Да","я помню про тренировку."], gaps:[true],
+    fixOk:"Верно!",
+    fixNo:"«Да, я помню про тренировку.»"},
+  {type:"msg", segs:["Нет","я не забыл про твой день рождения."], gaps:[true],
+    fixOk:"Верно!",
+    fixNo:"«Нет, я не забыл про твой день рождения.»"}
+];
+const TOTAL = ITEMS.filter(i=>i.type==="msg").length;
+
+const KEY="zad18_progress_v1";
+let saved={};
+try{saved=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){saved={}}
+let cursor = saved.cursor || 0;
+let log = saved.log || [];
+let sel = new Set();
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify({cursor,log}))}catch(e){}}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+const threadEl=document.getElementById("thread");
+const draftEl=document.getElementById("draft");
+const sendBtn=document.getElementById("sendbtn");
+const hintRow=document.getElementById("hintrow");
+
+function scrollBottom(){ threadEl.scrollTop = threadEl.scrollHeight; }
+
+function bubbleEl(rec){
+  const d=document.createElement("div");
+  if(rec.kind==="divider"){
+    d.className="divider";
+    d.innerHTML = `<span class="dt">${esc(rec.title)}</span><span class="dr">${esc(rec.rule)}</span>`;
+  } else if(rec.kind==="me"){
+    d.className="bubble me"+(rec.ok?"":" wrong");
+    d.innerHTML = `${esc(rec.text)}<span class="tick">✓ отправлено</span>`;
+  } else {
+    d.className="bubble bot";
+    d.textContent = rec.text;
+  }
+  return d;
+}
+
+function renderAll(){
+  threadEl.innerHTML="";
+  log.forEach(rec=>threadEl.appendChild(bubbleEl(rec)));
+  scrollBottom();
+  updateHud();
+}
+
+function buildText(item){
+  let out=item.segs[0];
+  for(let i=0;i<item.gaps.length;i++){
+    out += (sel.has(i)?",":"") + " " + item.segs[i+1];
+  }
+  return out;
+}
+
+function renderDraft(item){
+  sel = new Set();
+  let html="";
+  item.segs.forEach((s,i)=>{
+    html += esc(s);
+    if(i<item.gaps.length) html += `<button class="gapbtn" type="button" data-i="${i}">,</button>`;
+    if(i<item.segs.length-1) html += " ";
+  });
+  draftEl.innerHTML = html;
+  sendBtn.disabled=false;
+  hintRow.style.display="block";
+}
+
+function showDone(){
+  const done=log.filter(r=>r.kind==="me").length;
+  const ok=log.filter(r=>r.kind==="me"&&r.ok).length;
+  draftEl.outerHTML = `<div class="donebox">Готово! <b>${ok}/${done}</b> с первого раза. Жми «сбросить» внизу, если хочешь пройти ещё раз.</div>`;
+  sendBtn.disabled=true;
+  sendBtn.style.visibility="hidden";
+  hintRow.style.display="none";
+}
+
+function presentNext(){
+  while(cursor<ITEMS.length && ITEMS[cursor].type==="sys"){
+    const it=ITEMS[cursor];
+    const rec={kind:"divider", title:it.title, rule:it.rule};
+    log.push(rec);
+    threadEl.appendChild(bubbleEl(rec));
+    cursor++;
+  }
+  save();
+  scrollBottom();
+  updateHud();
+  if(cursor<ITEMS.length){
+    renderDraft(ITEMS[cursor]);
+  } else {
+    showDone();
+  }
+}
+
+function showTyping(){
+  const t=document.createElement("div");
+  t.className="typing"; t.id="typingIndicator";
+  t.innerHTML="<i></i><i></i><i></i>";
+  threadEl.appendChild(t);
+  scrollBottom();
+  return t;
+}
+
+function send(){
+  if(sendBtn.disabled) return;
+  const item=ITEMS[cursor];
+  const ok = item.gaps.every((g,i)=> sel.has(i)===g);
+  const text = buildText(item);
+  const meRec={kind:"me", text, ok};
+  log.push(meRec);
+  cursor++; // move past this msg item
+  threadEl.appendChild(bubbleEl(meRec));
+  scrollBottom();
+  updateHud();
+  save();
+  sendBtn.disabled=true;
+  hintRow.style.display="none";
+  const typing=showTyping();
+  setTimeout(()=>{
+    typing.remove();
+    const botRec={kind:"bot", text: ok? item.fixOk : item.fixNo};
+    log.push(botRec);
+    threadEl.appendChild(bubbleEl(botRec));
+    save();
+    presentNext();
+  }, 600);
+}
+
+function updateHud(){
+  const done=log.filter(r=>r.kind==="me").length;
+  const ok=log.filter(r=>r.kind==="me"&&r.ok).length;
+  document.getElementById("hud-done").textContent=done;
+  document.getElementById("hud-ok").textContent=ok;
+}
+
+draftEl.addEventListener("click", e=>{
+  const b=e.target.closest(".gapbtn"); if(!b) return;
+  const i=+b.dataset.i;
+  if(sel.has(i)) sel.delete(i); else sel.add(i);
+  b.classList.toggle("on", sel.has(i));
+});
+sendBtn.addEventListener("click", send);
+
+document.getElementById("reset").addEventListener("click", ()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
+
+function tickClock(){
+  const d=new Date();
+  document.getElementById("clock").textContent =
+    d.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+}
+tickClock(); setInterval(tickClock, 20000);
+
+// init
+if(log.length){
+  renderAll();
+  if(cursor<ITEMS.length) renderDraft(ITEMS[cursor]); else showDone();
+} else {
+  presentNext();
+}
+</script>
